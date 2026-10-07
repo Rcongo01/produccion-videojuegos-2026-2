@@ -16,8 +16,12 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Mi Plato Saludable"
 config/description="Juego educativo para niños basado en el Plato saludable de la Familia Colombiana (GABA, ICBF)."
-run/main_scene="res://src/scenes/main/menu_panel.tscn"
+run/main_scene="res://src/core/main_app.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+EventBus="*res://src/core/event_bus.gd"
 
 [display]
 
