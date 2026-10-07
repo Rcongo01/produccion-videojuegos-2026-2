@@ -149,14 +149,29 @@ var bonuses: Array[Dictionary] = []
 # Preferencias que sobreviven al cambio de pantalla
 var settings: Dictionary = {"show_hints": true}
 
+# --- Lab 7: persistencia ----------------------------------------------------------------
+# Estado TEMPORAL: la ronda en curso (selection, round_deck, current_score). Se pierde al cerrar.
+# Estado PERSISTENTE: progreso del jugador. Se guarda en user:// (en Web, IndexedDB).
+const SAVE_PATH := "user://save_data.json"
+var best_score: int = 0
+var groups_learned: Array[String] = []
+
 
 func _ready() -> void:
 	EventBus.next_food_requested.connect(_on_next_food_requested)
 	EventBus.food_placed.connect(_on_food_placed)
 	EventBus.round_restart_requested.connect(reset_round)
 	EventBus.bonus_obtained.connect(_on_bonus_obtained)
-	EventBus.hints_toggled.connect(func(enabled: bool) -> void: settings["show_hints"] = enabled)
+	EventBus.hints_toggled.connect(_on_hints_toggled)
+	EventBus.progress_reset_requested.connect(reset_progress)
+	# Lab 7: recuperar el progreso guardado al iniciar
+	load_progress()
 	reset_round()
+
+
+func _on_hints_toggled(enabled: bool) -> void:
+	settings["show_hints"] = enabled
+	save_progress()
 
 
 # Reinicia el estado de la ronda (cantidades en cero y mazo nuevo)
@@ -207,6 +222,7 @@ func _on_food_placed(food_id: String, group_id: String) -> void:
 	if correct:
 		selection["correct"] += 1
 		selection["by_group"][group_id] += 1
+		_register_progress(group_id)
 	else:
 		# Lab 6: el alimento mal ubicado regresa a su bandeja (no al mazo)
 		selection["wrong"] += 1
@@ -240,8 +256,8 @@ func group_message(group_id: String) -> String:
 # solo es válida si el plato alcanza el puntaje mínimo.
 
 func _on_bonus_obtained(bonus: Dictionary) -> void:
-	print("Estrella obtenida: ", bonus)
 	bonuses.append(bonus)
+	save_progress()
 
 
 func get_best_bonus(subtotal: int) -> Dictionary:
@@ -256,3 +272,69 @@ func get_best_bonus(subtotal: int) -> Dictionary:
 func remove_bonus(bonus: Dictionary) -> void:
 	if bonus in bonuses:
 		bonuses.erase(bonus)
+		save_progress()
+
+
+# --- Lab 7: guardar y cargar el progreso -------------------------------------------------
+
+func _register_progress(group_id: String) -> void:
+	var changed: bool = false
+	if not group_id in groups_learned:
+		groups_learned.append(group_id)
+		changed = true
+	if is_round_finished() and current_score_after_correct() > best_score:
+		best_score = current_score_after_correct()
+		changed = true
+	if changed:
+		save_progress()
+
+
+# _register_progress se llama antes de _update_score(); calcula el puntaje que tendrá la ronda
+func current_score_after_correct() -> int:
+	return max(selection["correct"] * points["correct"] + selection["wrong"] * points["wrong"], 0)
+
+
+func save_progress() -> void:
+	var save_data := {
+		"version": 1,
+		"bonuses": bonuses,
+		"best_score": best_score,
+		"groups_learned": groups_learned,
+		"settings": settings,
+	}
+	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if file == null:
+		printerr("No fue posible guardar el progreso: ", FileAccess.get_open_error())
+		return
+	file.store_string(JSON.stringify(save_data, "\t"))
+
+
+func load_progress() -> void:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return
+	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if file == null:
+		printerr("No fue posible cargar el progreso.")
+		return
+	var data = JSON.parse_string(file.get_as_text())
+	if not data is Dictionary:
+		printerr("Archivo de guardado inválido; se ignora.")
+		return
+	# JSON convierte los enteros en float: se normalizan al cargarlos.
+	# Se usa assign() porque un Array genérico no puede asignarse a un Array tipado.
+	bonuses.clear()
+	for bonus in data.get("bonuses", []):
+		if bonus is Dictionary and bonus.has("value") and bonus.has("minimum_score"):
+			bonuses.append({"value": int(bonus["value"]), "minimum_score": int(bonus["minimum_score"])})
+	best_score = int(data.get("best_score", 0))
+	groups_learned.assign(data.get("groups_learned", []).filter(func(g) -> bool: return groups.has(g)))
+	var loaded_settings = data.get("settings", {})
+	if loaded_settings is Dictionary:
+		settings["show_hints"] = bool(loaded_settings.get("show_hints", true))
+
+
+func reset_progress() -> void:
+	bonuses.clear()
+	best_score = 0
+	groups_learned.clear()
+	save_progress()

@@ -47,7 +47,8 @@ func _draw() -> void:
 	var mid: float = (start_angle + end_angle) / 2.0
 	var small: bool = (end_angle - start_angle) < 0.6
 	var center: Vector2 = Vector2(cos(mid), sin(mid)) * radius * (0.76 if small else 0.62)
-	var font: Font = ThemeDB.fallback_font
+	var project_theme: Theme = ThemeDB.get_project_theme()
+	var font: Font = project_theme.default_font if project_theme and project_theme.default_font else ThemeDB.fallback_font
 	var lines: PackedStringArray = label_text.split("\n")
 	var font_size: int = 14 if small else (15 if lines.size() > 1 else 17)
 	var y: float = center.y - (lines.size() - 1) * font_size * 0.6

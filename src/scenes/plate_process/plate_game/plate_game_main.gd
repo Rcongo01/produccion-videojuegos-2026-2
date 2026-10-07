@@ -93,7 +93,7 @@ func _show_feedback(food_id: String, group_id: String, correct: bool) -> void:
 	info_icon.texture = load(GlobalManager.food_texture_path(food_id))
 	if correct:
 		var group: Dictionary = GlobalManager.groups[group_id]
-		info_title.text = "¡Muy bien! %s → %s" % [food_name, group["short"]]
+		info_title.text = "¡Muy bien! %s va en %s" % [food_name, group["short"]]
 		info_body.text = "¿Para qué sirve?\n%s\n\n¿Por qué es importante?\n%s" % [group["function"], group["importance"]]
 		info_message_title.text = "Mensaje de las Guías Alimentarias"
 		info_message.text = "«%s»" % GlobalManager.group_message(group_id)
@@ -151,6 +151,7 @@ func _end_game() -> void:
 			if child.has_method("lock"):
 				child.lock()
 	$CanvasLayer/HUD.hide()
+	info_panel.hide()
 
 
 func show_panel(title: String, desc: String, count: String, message: String) -> void:

@@ -11,6 +11,7 @@ signal next_food_requested()
 signal round_restart_requested()
 signal food_placed(food_id: String, group_id: String)
 signal hints_toggled(enabled: bool)
+signal progress_reset_requested()
 
 # Resultados del GlobalManager -> interfaz
 signal food_changed(food_id: String)

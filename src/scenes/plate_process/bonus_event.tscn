@@ -13,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ev")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="Card" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -26,22 +26,26 @@ offset_right = 360.0
 offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Card"]
+layout_mode = 2
+alignment = 1
 theme_override_constants/separation = 16
 
-[node name="Star" type="TextureRect" parent="VBox"]
+[node name="Star" type="TextureRect" parent="Card/VBox"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 texture = ExtResource("3_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="LblTitle" type="Label" parent="VBox"]
+[node name="LblTitle" type="Label" parent="Card/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "¡Gana estrellas de bonificación!"
 horizontal_alignment = 1
 
-[node name="LblDesc" type="Label" parent="VBox"]
+[node name="LblDesc" type="Label" parent="Card/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 19
 text = "Mueve la canasta con las flechas (o A / D) y atrapa frutas y verduras.
@@ -50,19 +54,19 @@ La participación es voluntaria."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="LblBonuses" type="Label" parent="VBox"]
+[node name="LblBonuses" type="Label" parent="Card/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Estrellas guardadas: 0"
 horizontal_alignment = 1
 
-[node name="BtnPlay" parent="VBox" instance=ExtResource("2_nav")]
+[node name="BtnPlay" parent="Card/VBox" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Jugar ahora"
 target_scene = "res://src/scenes/gamification/catch_food/bonus_game.tscn"
 
-[node name="BtnBack" parent="VBox" instance=ExtResource("2_nav")]
+[node name="BtnBack" parent="Card/VBox" instance=ExtResource("2_nav")]
 layout_mode = 2
 text = "Volver al menú"
 target_scene = "res://src/scenes/main/menu_panel.tscn"

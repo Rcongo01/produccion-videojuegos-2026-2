@@ -3,10 +3,10 @@
 # Lee el estado del GlobalManager, consulta la mejor estrella válida y la consume solo al confirmar.
 extends Control
 
-@onready var lbl_subtotal: Label = $VBoxContainer/LblSubtotal
-@onready var lbl_bonus: Label = $VBoxContainer/LblBonus
-@onready var lbl_total: Label = $VBoxContainer/LblTotal
-@onready var btn_confirm: Button = $VBoxContainer/BtnConfirm
+@onready var lbl_subtotal: Label = $Card/VBoxContainer/LblSubtotal
+@onready var lbl_bonus: Label = $Card/VBoxContainer/LblBonus
+@onready var lbl_total: Label = $Card/VBoxContainer/LblTotal
+@onready var btn_confirm: Button = $Card/VBoxContainer/BtnConfirm
 
 var applied_bonus: Dictionary = {}
 

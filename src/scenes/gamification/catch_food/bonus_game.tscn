@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/gamification/catch_food/bonus_game.gd" id="1_game"]
 [ext_resource type="Script" path="res://src/scenes/gamification/catch_food/player.gd" id="2_player"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://src/scenes/gamification/catch_food/spawner.gd" id="6_spawner"]
 [ext_resource type="PackedScene" path="res://src/scenes/gamification/catch_food/falling_food.tscn" id="7_food"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="8_nav"]
+[ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/arrow_left.png" id="9_left"]
+[ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/arrow_right.png" id="10_right"]
 
 [sub_resource type="RectangleShape2D" id="Rect_player"]
 size = Vector2(96, 56)
@@ -169,8 +171,9 @@ offset_right = 116.0
 offset_bottom = -16.0
 grow_vertical = 0
 focus_mode = 0
-theme_override_font_sizes/font_size = 40
-text = "◀"
+icon = ExtResource("9_left")
+icon_alignment = 1
+expand_icon = true
 
 [node name="TouchRight" type="Button" parent="CanvasLayer"]
 anchors_preset = 3
@@ -185,8 +188,9 @@ offset_bottom = -16.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
-theme_override_font_sizes/font_size = 40
-text = "▶"
+icon = ExtResource("10_right")
+icon_alignment = 1
+expand_icon = true
 
 [node name="ResultPanel" type="PanelContainer" parent="CanvasLayer"]
 visible = false

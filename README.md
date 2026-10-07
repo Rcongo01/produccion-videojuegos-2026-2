@@ -9,7 +9,7 @@
 **Universidad Antonio Nariño (UAN)**<br>
 Facultad de Ingeniería de Sistemas y Computación
 
-![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%206%20de%207-f2c14e)
+![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%207%20de%207-f2c14e) ![Web](https://img.shields.io/badge/Exportaci%C3%B3n-Web%20HTML5-e44d26?logo=html5&logoColor=white)
 
 </div>
 
@@ -23,9 +23,7 @@ El plato aparece en el centro con sus **6 grupos de alimentos** y los alimentos 
 
 Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece guía tras guía siguiendo buenas prácticas de ingeniería de software.
 
-![El plato interactivo con el panel de información](doc/img/guia_6.jpg)
-
-<sub>El plato interactivo con el panel de información · estado al cerrar la Guía 6</sub>
+![Mi Plato Saludable](doc/img/plato.jpg)
 
 ## 🎮 Cómo se juega
 
@@ -33,6 +31,7 @@ Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece g
 - Acierto: el alimento queda servido y el panel explica el grupo. Error: vuelve a su puesto y recibes una pista.
 - Completa los 12 alimentos en 150 segundos; sin errores ganas una estrella.
 - **Ganar estrellas**: minijuego de la canasta (A / D, flechas o botones en pantalla).
+- **Mis grupos del plato**: álbum de los grupos que ya descubriste. Tu progreso se guarda solo.
 
 ## 🥗 Los 6 grupos del plato
 
@@ -55,7 +54,7 @@ Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece g
 | 4 | Estado global y ButtonNav | `GlobalManager` con los datos del plato; primera versión jugable por botones. | ✅ |
 | 5 | Entrada, movimiento y mecánicas | Minijuego *Atrapa frutas y verduras* y estrellas de bonificación. | ✅ |
 | 6 | Máquinas de estado y Tweens | El plato interactivo: arrastrar cada alimento a su grupo. | ✅ |
-| 7 | Vertical Slice, persistencia y Web | Progreso guardado, diseño final, álbum de grupos y versión Web. | ⏳ |
+| 7 | Vertical Slice, persistencia y Web | Progreso guardado, diseño final, álbum de grupos y versión Web. | ✅ |
 
 Cada guía se desarrolla en su propia rama `lab-N`, se fusiona en `main` y se marca con la etiqueta `lab-N-final`.
 
@@ -71,17 +70,23 @@ Cada guía se desarrolla en su propia rama `lab-N`, se fusiona en `main` y se ma
 - Entrada por acciones del Input Map (`move_left`, `move_right`), no por teclas fijas.
 - Cada alimento tiene una **máquina de estados finita**: `APARECIENDO → DISPONIBLE → ARRASTRANDO → UBICADO / RECHAZADO`.
 - Animaciones con **Tween** elegidas según la transición (estado anterior → actual).
+- **Persistencia** en `user://save_data.json` (IndexedDB en Web): estrellas, récord, grupos descubiertos y preferencias.
+- **Tema global** (`plato_theme.tres`) para una apariencia consistente en todas las pantallas.
 
 ## 📁 Estructura de Directorios del Repositorio
 
 ```
 src/
 ├── assets/
-│   └── foods/
+│   ├── fonts/
+│   ├── foods/
+│   └── ui/
 ├── components/
 │   └── navigation/
 ├── core/
+│   └── theme/
 └── scenes/
+    ├── album/
     ├── config/
     ├── credits/
     ├── gamification/
@@ -105,6 +110,16 @@ Todos los archivos y carpetas usan `snake_case`, y cada escena vive junto a su s
 - **Versionamiento:** Git / GitHub con ramas por guía y Conventional Commits
 - **Documentación:** ADR + DEVLOG
 
+## 🌐 Versión Web
+
+El preset **Web** ya está configurado en `export_presets.cfg` (sin hilos y sin cabeceras de aislamiento, compatible con itch.io).
+
+1. En Godot: **Proyecto → Exportar… → Web → Exportar Proyecto** (desactiva *Exportar con depuración*).
+2. La exportación queda en `build/web/index.html` (la carpeta `build/` está excluida de Git).
+3. Comprime el contenido de `build/web/` en un ZIP con `index.html` en la raíz y súbelo a itch.io como proyecto **HTML**.
+
+**Jugar en línea:** _[pegar aquí la URL de itch.io]_
+
 ## ▶️ Cómo abrir el proyecto
 
 1. Instala **Godot Engine 4.7** (versión *Standard*).
@@ -119,7 +134,7 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 
 ## 🏷️ Versiones
 
-`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final` · `lab-4-final` · `lab-5-final` · `lab-6-final`
+`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final` · `lab-4-final` · `lab-5-final` · `lab-6-final` · `lab-7-final`
 
 ## 📚 Documentación
 
@@ -129,12 +144,23 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 - [`doc/guias/guia_04_global_manager.md`](doc/guias/guia_04_global_manager.md): qué pide la Guía 4 y cómo se aplicó al juego.
 - [`doc/guias/guia_05_entrada_mecanicas.md`](doc/guias/guia_05_entrada_mecanicas.md): qué pide la Guía 5 y cómo se aplicó al juego.
 - [`doc/guias/guia_06_fsm_tweens.md`](doc/guias/guia_06_fsm_tweens.md): qué pide la Guía 6 y cómo se aplicó al juego.
+- [`doc/guias/guia_07_vertical_slice.md`](doc/guias/guia_07_vertical_slice.md): qué pide la Guía 7 y cómo se aplicó al juego.
 - Decisiones de arquitectura: [ADR-001](doc/adr/ADR-001-colocalizacion.md), [ADR-002](doc/adr/ADR-002-event-bus-navegacion.md), [ADR-003](doc/adr/ADR-003-global-manager-button-nav.md), [ADR-004](doc/adr/ADR-004-gamificacion-recompensas.md), [ADR-005](doc/adr/ADR-005-fsm-animaciones.md).
 
 ## 📜 Créditos y licencias
 
 - Contenido educativo: *Guías Alimentarias Basadas en Alimentos para la población colombiana mayor de 2 años* (ICBF – FAO) y su **Plato saludable de la Familia Colombiana**.
 - Íconos de alimentos: generados a partir de **Noto Color Emoji** (SIL Open Font License 1.1).
+- Tipografía: **Fredoka** (SIL Open Font License 1.1), licencia en `src/assets/fonts/OFL_Fredoka.txt`.
+- Fondo, logo, suelo y paredes: creados para este proyecto.
+
+## 🖼️ Galería
+
+| | |
+|:---:|:---:|
+| ![Menú](doc/img/menu.jpg)<br>*Menú* | ![Acierto en el plato](doc/img/plato.jpg)<br>*Acierto en el plato* |
+| ![Error con pista](doc/img/error.jpg)<br>*Error con pista* | ![Mis grupos del plato](doc/img/album.jpg)<br>*Mis grupos del plato* |
+| ![Minijuego de estrellas](doc/img/minijuego.jpg)<br>*Minijuego de estrellas* | ![Plato completo](doc/img/resultado.jpg)<br>*Plato completo* |
 
 ## 👨‍💻 Autor
 
