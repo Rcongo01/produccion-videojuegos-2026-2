@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/components/navigation/button_nav.gd" id="1_nav"]
+
+[node name="ButtonNav" type="Button"]
+custom_minimum_size = Vector2(0, 52)
+theme_override_font_sizes/font_size = 20
+text = "Navegar"
+script = ExtResource("1_nav")

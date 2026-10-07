@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://medkfeo25e55"
-path="res://.godot/imported/guia_3.jpg-01fb41ee31e240de1a23f38036ceca98.ctex"
+uid="uid://cnsnv8mqwkuua"
+path="res://.godot/imported/fresa.png-0f41660d167dd4cdcbd6aa54ae86336c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://doc/img/guia_3.jpg"
-dest_files=["res://.godot/imported/guia_3.jpg-01fb41ee31e240de1a23f38036ceca98.ctex"]
+source_file="res://src/assets/foods/fresa.png"
+dest_files=["res://.godot/imported/fresa.png-0f41660d167dd4cdcbd6aa54ae86336c.ctex"]
 
 [params]
 

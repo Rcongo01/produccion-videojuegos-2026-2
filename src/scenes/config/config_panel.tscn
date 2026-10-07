@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/config/config_panel.gd" id="1_cfg"]
+[ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
 
 [node name="ConfigPanel" type="Control"]
 layout_mode = 3
@@ -38,8 +39,9 @@ theme_override_font_sizes/font_size = 20
 button_pressed = true
 text = "Mostrar pistas al equivocarme"
 
-[node name="BtnBack" type="Button" parent="VBox"]
+[node name="BtnBack" parent="VBox" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Volver al menú"
+target_scene = "res://src/scenes/main/menu_panel.tscn"
+discard_previous = true
