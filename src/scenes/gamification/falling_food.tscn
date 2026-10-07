@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/gamification/falling_food.gd" id="1_ff"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bounce"]
+bounce = 0.45
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ff"]
+radius = 30.0
+
+[node name="FallingFood" type="RigidBody2D" groups=["collectable"]]
+physics_material_override = SubResource("PhysicsMaterial_bounce")
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_ff")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ff")
