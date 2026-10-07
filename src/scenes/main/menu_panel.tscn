@@ -19,9 +19,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -260.0
-offset_top = -170.0
+offset_top = -200.0
 offset_right = 260.0
-offset_bottom = 170.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -29,56 +29,29 @@ theme_override_constants/separation = 16
 [node name="LblTitle" type="Label" parent="VBoxMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
-text = "Mi Plato Saludable - Lab 2"
+text = "Mi Plato Saludable"
 horizontal_alignment = 1
-autowrap_mode = 3
 
-[node name="BtnIniciar" type="Button" parent="VBoxMenu"]
+[node name="BtnSimulacion" type="Button" parent="VBoxMenu"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Iniciar juego"
 
-[node name="BtnCreditos" type="Button" parent="VBoxMenu"]
+[node name="BtnConfig" type="Button" parent="VBoxMenu"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Configuración"
+
+[node name="BtnCredits" type="Button" parent="VBoxMenu"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Créditos"
 
-[node name="BtnSalir" type="Button" parent="VBoxMenu"]
+[node name="BtnExit" type="Button" parent="VBoxMenu"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Cerrar aplicación"
-
-[node name="PanelCreditos" type="PanelContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -130.0
-offset_right = 280.0
-offset_bottom = 130.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="PanelCreditos"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="LblCreditos" type="Label" parent="PanelCreditos/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Mi Plato Saludable
-Desarrollado por: Ronaldo Congo Cancelado
-Producción de Videojuegos - 2026"
-horizontal_alignment = 1
-autowrap_mode = 3
-
-[node name="BtnCerrarCreditos" type="Button" parent="PanelCreditos/VBox"]
-layout_mode = 2
-text = "Cerrar"

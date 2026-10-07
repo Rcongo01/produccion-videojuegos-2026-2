@@ -1,5 +1,6 @@
 # res://src/scenes/simulation/step_1_base.gd
 # Lab 2: un mismo callback reutilizado con .bind() para los 6 grupos del plato.
+# Lab 3: el regreso al menú se solicita al EventBus (sin rutas de cambio de escena directas).
 extends Control
 
 @onready var btn_grupo_1: Button = $VBoxContainer/GridContainer/BtnGrupo1
@@ -33,14 +34,12 @@ func _ready() -> void:
 		"Azúcares",
 		"Dan energía rápida, pero se deben comer pocas veces y en poca cantidad."))
 
-	btn_volver.pressed.connect(_on_btn_volver_pressed)
+	btn_volver.pressed.connect(func() -> void:
+		EventBus.navigation_requested.emit("res://src/scenes/main/menu_panel.tscn")
+	)
 
 
 func _on_grupo_selected(nombre_grupo: String, funcion: String) -> void:
 	lbl_status_local.text = "%s\n%s" % [nombre_grupo, funcion]
 	print("Grupo seleccionado de forma local: ", nombre_grupo)
 
-
-func _on_btn_volver_pressed() -> void:
-	# Navegación básica y acoplada heredada (será refactorizada en el Lab 3)
-	get_tree().change_scene_to_file("res://src/scenes/main/menu_panel.tscn")
