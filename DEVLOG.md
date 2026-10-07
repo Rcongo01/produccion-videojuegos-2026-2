@@ -52,3 +52,21 @@
 * *Solución:* La interfaz solo emite `food_placed`; `GlobalManager` decide si es correcto y responde con `placement_evaluated`.
 * *Desafío:* El botón "Siguiente" permitía saltar alimentos y dejar la ronda incompleta.
 * *Solución:* Se deshabilita hasta que el niño responde.
+
+## [2026-10-03] - Laboratorio 5: Integración de Gamificación y Sistema de Recompensas
+
+### Actividades Realizadas
+
+* Reorganización: `simulation/` → `plate_process/` y `step_1_base` → `plate_panel`.
+* Pantalla `bonus_event` (participación voluntaria) y entrada "Ganar estrellas" en el menú.
+* Minijuego "Atrapa frutas y verduras": canasta (`CharacterBody2D`), frutas y verduras con físicas (`RigidBody2D`), suelo y embudo (`StaticBody2D`), 5 spawners con Timer y parábola.
+* Input Map con `move_left` / `move_right` y botones táctiles que presionan las mismas acciones.
+* Señal `bonus_obtained` en el `EventBus`; `GlobalManager` guarda estrellas y aplica las reglas (`get_best_bonus`, `remove_bonus`).
+* Pantalla `plate_summary` con aciertos por grupo, estrella aplicada y total; confirmar consume la estrella y reinicia el plato.
+
+### Desafíos y Soluciones
+
+* *Desafío:* Entregar recompensas sin acoplar el minijuego al resumen del plato.
+* *Solución:* El minijuego solo emite `bonus_obtained`; `GlobalManager` administra y el resumen consulta.
+* *Desafío:* Que el reto fuera alcanzable por niños.
+* *Solución:* Meta de 8 frutas; se verificó con un bot automatizado que es ganable.
