@@ -9,7 +9,7 @@
 **Universidad Antonio Nariño (UAN)**<br>
 Facultad de Ingeniería de Sistemas y Computación
 
-![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%204%20de%207-f2c14e)
+![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%205%20de%207-f2c14e)
 
 </div>
 
@@ -23,15 +23,15 @@ El plato aparece en el centro con sus **6 grupos de alimentos** y los alimentos 
 
 Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece guía tras guía siguiendo buenas prácticas de ingeniería de software.
 
-![Juego por botones con el color de cada división](doc/img/guia_4.jpg)
+![Minijuego Atrapa frutas y verduras](doc/img/guia_5.jpg)
 
-<sub>Juego por botones con el color de cada división · estado al cerrar la Guía 4</sub>
+<sub>Minijuego Atrapa frutas y verduras · estado al cerrar la Guía 5</sub>
 
 ## 🎮 Cómo se juega
 
-- **Iniciar juego**: aparece un alimento; toca el grupo al que pertenece.
-- Si aciertas ves la función del grupo, por qué es importante y el mensaje de las Guías Alimentarias.
-- Cada ronda trae 12 alimentos en la proporción del plato (3-3-2-2-1-1).
+- **Armar mi plato**: elige el grupo de cada alimento y suma puntos.
+- **Ganar estrellas**: mueve la canasta con **A / D**, las **flechas** o los botones en pantalla y atrapa 8 frutas y verduras.
+- **Ver mi plato**: el resumen aplica la mejor estrella válida a tu puntaje.
 
 ## 🥗 Los 6 grupos del plato
 
@@ -52,7 +52,7 @@ Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece g
 | 2 | Escenas, nodos y co-localización | Menú y pantalla para conocer los 6 grupos del plato con `.bind()`. | ✅ |
 | 3 | Navegación desacoplada (Event Bus) | `EventBus`, orquestador `MainApp`, Configuración y Créditos. | ✅ |
 | 4 | Estado global y ButtonNav | `GlobalManager` con los datos del plato; primera versión jugable por botones. | ✅ |
-| 5 | Entrada, movimiento y mecánicas | Minijuego *Atrapa frutas y verduras* y estrellas de bonificación. | ⏳ |
+| 5 | Entrada, movimiento y mecánicas | Minijuego *Atrapa frutas y verduras* y estrellas de bonificación. | ✅ |
 | 6 | Máquinas de estado y Tweens | El plato interactivo: arrastrar cada alimento a su grupo. | ⏳ |
 | 7 | Vertical Slice, persistencia y Web | Progreso guardado, diseño final, álbum de grupos y versión Web. | ⏳ |
 
@@ -66,6 +66,8 @@ Cada guía se desarrolla en su propia rama `lab-N`, se fusiona en `main` y se ma
 - **`MainApp`**: única escena principal; instancia y libera pantallas dentro de `SceneContainer`.
 - **`GlobalManager`** (Autoload): datos del plato (grupos, alimentos, mensajes GABA) y estado de la ronda.
 - **`ButtonNav`**: botón de navegación reutilizable configurado desde el Inspector; historial como pila.
+- El minijuego es un módulo independiente: publica `bonus_obtained` y `GlobalManager` aplica las reglas de las estrellas.
+- Entrada por acciones del Input Map (`move_left`, `move_right`), no por teclas fijas.
 
 ## 📁 Estructura de Directorios del Repositorio
 
@@ -79,8 +81,10 @@ src/
 └── scenes/
     ├── config/
     ├── credits/
+    ├── gamification/
+    │   └── assets/
     ├── main/
-    └── simulation/
+    └── plate_process/
 doc/
 ├── adr/      Registros de decisiones de arquitectura (ADR)
 ├── guias/    Qué se aplicó de cada guía
@@ -111,7 +115,7 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 
 ## 🏷️ Versiones
 
-`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final` · `lab-4-final`
+`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final` · `lab-4-final` · `lab-5-final`
 
 ## 📚 Documentación
 
@@ -119,7 +123,8 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 - [`doc/guias/guia_02_colocalizacion.md`](doc/guias/guia_02_colocalizacion.md): qué pide la Guía 2 y cómo se aplicó al juego.
 - [`doc/guias/guia_03_event_bus.md`](doc/guias/guia_03_event_bus.md): qué pide la Guía 3 y cómo se aplicó al juego.
 - [`doc/guias/guia_04_global_manager.md`](doc/guias/guia_04_global_manager.md): qué pide la Guía 4 y cómo se aplicó al juego.
-- Decisiones de arquitectura: [ADR-001](doc/adr/ADR-001-colocalizacion.md), [ADR-002](doc/adr/ADR-002-event-bus-navegacion.md), [ADR-003](doc/adr/ADR-003-global-manager-button-nav.md).
+- [`doc/guias/guia_05_entrada_mecanicas.md`](doc/guias/guia_05_entrada_mecanicas.md): qué pide la Guía 5 y cómo se aplicó al juego.
+- Decisiones de arquitectura: [ADR-001](doc/adr/ADR-001-colocalizacion.md), [ADR-002](doc/adr/ADR-002-event-bus-navegacion.md), [ADR-003](doc/adr/ADR-003-global-manager-button-nav.md), [ADR-004](doc/adr/ADR-004-gamificacion-recompensas.md).
 
 ## 📜 Créditos y licencias
 

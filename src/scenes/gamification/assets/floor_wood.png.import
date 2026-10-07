@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5qj5ktm2fl0a"
-path="res://.godot/imported/guia_4.jpg-daa92e3b6a8d2b489ea0623c4585fcd6.ctex"
+uid="uid://b23gh50nnkgr4"
+path="res://.godot/imported/floor_wood.png-832d6b2703f9b2ed106f29c2638c96eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://doc/img/guia_4.jpg"
-dest_files=["res://.godot/imported/guia_4.jpg-daa92e3b6a8d2b489ea0623c4585fcd6.ctex"]
+source_file="res://src/scenes/gamification/assets/floor_wood.png"
+dest_files=["res://.godot/imported/floor_wood.png-832d6b2703f9b2ed106f29c2638c96eb.ctex"]
 
 [params]
 
