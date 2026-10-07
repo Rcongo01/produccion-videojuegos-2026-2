@@ -1,4 +1,4 @@
-# res://src/scenes/gamification/spawner.gd
+# res://src/scenes/gamification/catch_food/spawner.gd
 # Lab 5: genera recolectables de forma progresiva con un Timer y un límite máximo.
 extends Node2D
 
@@ -8,6 +8,9 @@ signal spawned_item
 @export var spawn_interval: float = 1.5
 @export var collectable_scene: PackedScene
 @export var use_parabola: bool = false
+# Rango del impulso horizontal de la parábola (configurable para lanzar siempre hacia el embudo)
+@export var impulse_min_x: int = -400
+@export var impulse_max_x: int = 400
 
 @onready var timer: Timer = $Timer
 
@@ -27,7 +30,7 @@ func _on_spawn_timer_timeout() -> void:
 	spawned_item.emit()
 	var spawn_position := global_position
 	if use_parabola:
-		spawn_from_side(spawn_position, Vector2(randi_range(-400, 400), -250))
+		spawn_from_side(spawn_position, Vector2(randi_range(impulse_min_x, impulse_max_x), -250))
 	else:
 		spawn_item(spawn_position)
 

@@ -1,11 +1,11 @@
-# res://src/scenes/gamification/bonus_game.gd
+# res://src/scenes/gamification/catch_food/bonus_game.gd
 # Lab 5: controlador del minijuego "Atrapa frutas y verduras".
 # Lleva el conteo, decide victoria/derrota y publica la recompensa en el EventBus
 # sin conocer el resumen del plato ni el proceso principal del juego.
 extends Node2D
 
 @export var target_items: int = 8
-@export var max_spawned_items: int = 15
+@export var max_spawned_items: int = 18
 @export var bonus_value: int = 30
 @export var bonus_minimum_score: int = 60
 
@@ -20,8 +20,13 @@ var collected_items: int = 0
 var game_finished: bool = false
 
 
+# Spawners de ESTA escena (la anterior puede seguir un fotograma en el árbol tras queue_free)
+func _my_spawners() -> Array:
+	return get_tree().get_nodes_in_group("spawner").filter(func(n: Node) -> bool: return is_ancestor_of(n))
+
+
 func _ready() -> void:
-	var spawners: Array = get_tree().get_nodes_in_group("spawner")
+	var spawners: Array = _my_spawners()
 	for spawn in spawners:
 		spawn.spawned_item.connect(_on_item_spawned)
 	_update_objective()
@@ -80,7 +85,7 @@ func clean_game() -> void:
 	if game_finished:
 		return
 	game_finished = true
-	var spawners: Array = get_tree().get_nodes_in_group("spawner")
+	var spawners: Array = _my_spawners()
 	for spawn in spawners:
 		spawn.queue_free()
 	$Player.queue_free()

@@ -1,4 +1,4 @@
-# res://src/scenes/gamification/falling_food.gd
+# res://src/scenes/gamification/catch_food/falling_food.gd
 # Lab 5: objeto recolectable con físicas. Muestra una fruta o verdura al azar
 # del catálogo del GlobalManager y se destruye si toca el suelo.
 extends RigidBody2D

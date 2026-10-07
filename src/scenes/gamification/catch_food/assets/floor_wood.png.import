@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2y4rapawd4uc"
-path="res://.godot/imported/canasta.png-416bb2885ca623d70ef96aa7d06484c2.ctex"
+uid="uid://b23gh50nnkgr4"
+path="res://.godot/imported/floor_wood.png-a6a334c858026a4674bb1252d14d26d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/scenes/gamification/assets/canasta.png"
-dest_files=["res://.godot/imported/canasta.png-416bb2885ca623d70ef96aa7d06484c2.ctex"]
+source_file="res://src/scenes/gamification/catch_food/assets/floor_wood.png"
+dest_files=["res://.godot/imported/floor_wood.png-a6a334c858026a4674bb1252d14d26d1.ctex"]
 
 [params]
 
