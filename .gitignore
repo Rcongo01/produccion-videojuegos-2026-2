@@ -2,5 +2,5 @@
 .godot/
 # Excluir archivos binarios y traducciones generadas
 *.translation
-# Excluir presets de exportación locales (contienen rutas absolutas locales de su PC)
-export_presets.cfg
+# Excluir exportaciones generadas (build Web)
+build/

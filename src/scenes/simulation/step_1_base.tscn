@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/simulation/step_1_base.gd" id="1_step"]
+
+[node name="Step1Base" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_step")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -300.0
+offset_right = 420.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="LblTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "El Plato saludable - Paso 1: conoce los grupos"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="BtnGrupo1" type="Button" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cereales, raíces, tubérculos y plátanos"
+
+[node name="BtnGrupo2" type="Button" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Frutas y verduras"
+
+[node name="BtnGrupo3" type="Button" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Leche y productos lácteos"
+
+[node name="BtnGrupo4" type="Button" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Carnes, huevos, leguminosas, frutos secos y semillas"
+
+[node name="BtnGrupo5" type="Button" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Grasas"
+
+[node name="BtnGrupo6" type="Button" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Azúcares"
+
+[node name="LblStatusLocal" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Ningún grupo seleccionado. Toca un grupo para conocerlo."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="BtnVolver" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Volver al menú"
