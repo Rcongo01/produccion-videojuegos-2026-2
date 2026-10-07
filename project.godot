@@ -18,6 +18,10 @@ config/name="Mi Plato Saludable"
 config/description="Juego educativo para niños basado en el Plato saludable de la Familia Colombiana (GABA, ICBF)."
 run/main_scene="res://src/core/main_app.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0.12, 0.26, 0.21, 1)
+boot_splash/stretch_mode=0
+boot_splash/image="res://src/assets/ui/logo_plato.png"
+config/icon="res://src/assets/ui/logo_plato.png"
 
 [autoload]
 
@@ -30,6 +34,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom="res://src/core/theme/plato_theme.tres"
 
 [input]
 

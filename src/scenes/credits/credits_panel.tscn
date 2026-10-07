@@ -10,33 +10,39 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="Card" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
-offset_top = -170.0
-offset_right = 320.0
-offset_bottom = 170.0
+offset_left = -350.0
+offset_top = -210.0
+offset_right = 350.0
+offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Card"]
+layout_mode = 2
+alignment = 1
 theme_override_constants/separation = 18
 
-[node name="LblCredits" type="Label" parent="VBox"]
+[node name="LblCredits" type="Label" parent="Card/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 19
 text = "Mi Plato Saludable
 Desarrollado por: Ronaldo Congo Cancelado
-Producción de Videojuegos · 2026-II
+Producción de Videojuegos · 2026-II · Godot Engine 4.7
 
-Contenido educativo basado en las Guías Alimentarias Basadas en Alimentos para la población colombiana mayor de 2 años (ICBF - FAO)."
+Contenido: Guías Alimentarias Basadas en Alimentos para la población colombiana mayor de 2 años (ICBF - FAO) y su Plato saludable de la Familia Colombiana.
+
+Íconos: Noto Color Emoji (SIL OFL 1.1) · Tipografía: Fredoka (SIL OFL 1.1)"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="BtnBack" parent="VBox" instance=ExtResource("2_nav")]
+[node name="BtnBack" parent="Card/VBox" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "Volver al menú"

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/main/menu_panel.gd" id="1_menu"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/logo_plato.png" id="3_logo"]
 
 [node name="MenuPanel" type="Control"]
 layout_mode = 3
@@ -10,62 +11,111 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_menu")
 
-[node name="VBoxMenu" type="VBoxContainer" parent="."]
+[node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -230.0
-offset_right = 260.0
-offset_bottom = 230.0
+offset_left = -560.0
+offset_top = -320.0
+offset_right = 560.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+mouse_filter = 2
+theme_override_constants/separation = 48
+alignment = 1
 
-[node name="LblTitle" type="Label" parent="VBoxMenu"]
+[node name="Logo" type="TextureRect" parent="HBox"]
+custom_minimum_size = Vector2(440, 440)
 layout_mode = 2
-theme_override_font_sizes/font_size = 34
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxMenu" type="VBoxContainer" parent="HBox"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LblTitle" type="Label" parent="HBox/VBoxMenu"]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 54
 text = "Mi Plato Saludable"
 horizontal_alignment = 1
 
-[node name="BtnPlatePanel" parent="VBoxMenu" instance=ExtResource("2_nav")]
-custom_minimum_size = Vector2(0, 56)
+[node name="LblSubtitle" type="Label" parent="HBox/VBoxMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.95, 0.76, 0.31, 1)
+theme_override_font_sizes/font_size = 19
+text = "Aprende el Plato saludable de la Familia Colombiana"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="HBox/VBoxMenu"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BtnPlatePanel" parent="HBox/VBoxMenu" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
 text = "Armar mi plato"
 target_scene = "res://src/scenes/plate_process/plate_game/plate_game_main.tscn"
 
-[node name="BtnBonusEvent" parent="VBoxMenu" instance=ExtResource("2_nav")]
-custom_minimum_size = Vector2(0, 56)
+[node name="BtnBonusEvent" parent="HBox/VBoxMenu" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
 text = "Ganar estrellas"
 target_scene = "res://src/scenes/plate_process/bonus_event.tscn"
 
-
-[node name="BtnConfig" parent="VBoxMenu" instance=ExtResource("2_nav")]
-custom_minimum_size = Vector2(0, 56)
+[node name="BtnAlbum" parent="HBox/VBoxMenu" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+text = "Mis grupos del plato"
+target_scene = "res://src/scenes/album/album_panel.tscn"
+
+[node name="HBoxSmall" type="HBoxContainer" parent="HBox/VBoxMenu"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="BtnConfig" parent="HBox/VBoxMenu/HBoxSmall" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
 text = "Configuración"
 target_scene = "res://src/scenes/config/config_panel.tscn"
 
-
-[node name="BtnCredits" parent="VBoxMenu" instance=ExtResource("2_nav")]
-custom_minimum_size = Vector2(0, 56)
+[node name="BtnCredits" parent="HBox/VBoxMenu/HBoxSmall" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
 text = "Créditos"
 target_scene = "res://src/scenes/credits/credits_panel.tscn"
 
-
-[node name="BtnExit" type="Button" parent="VBoxMenu"]
-custom_minimum_size = Vector2(0, 56)
+[node name="BtnExit" type="Button" parent="HBox/VBoxMenu/HBoxSmall"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Cerrar aplicación"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Salir"
+
+[node name="LblStats" type="Label" parent="HBox/VBoxMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.93, 0.88, 1)
+theme_override_font_sizes/font_size = 17
+text = "Récord: 0 · Estrellas: 0 · Grupos descubiertos: 0 / 6"
+horizontal_alignment = 1
