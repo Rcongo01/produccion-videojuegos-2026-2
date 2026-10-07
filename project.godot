@@ -22,6 +22,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 [autoload]
 
 EventBus="*res://src/core/event_bus.gd"
+GlobalManager="*res://src/core/global_manager.gd"
 
 [display]
 
