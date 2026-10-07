@@ -1,45 +1,121 @@
 # res://src/scenes/simulation/step_1_base.gd
-# Lab 2: un mismo callback reutilizado con .bind() para los 6 grupos del plato.
-# Lab 3: el regreso al menú se solicita al EventBus (sin rutas de cambio de escena directas).
+# Lab 4: interfaz reactiva del juego del plato.
+#   - Los botones solo EMITEN intenciones al EventBus (food_placed, next_food_requested).
+#   - GlobalManager evalúa, actualiza el puntaje y emite el resultado.
+#   - Esta escena REACCIONA a food_changed, placement_evaluated y score_changed.
 extends Control
 
-@onready var btn_grupo_1: Button = $VBoxContainer/GridContainer/BtnGrupo1
-@onready var btn_grupo_2: Button = $VBoxContainer/GridContainer/BtnGrupo2
-@onready var btn_grupo_3: Button = $VBoxContainer/GridContainer/BtnGrupo3
-@onready var btn_grupo_4: Button = $VBoxContainer/GridContainer/BtnGrupo4
-@onready var btn_grupo_5: Button = $VBoxContainer/GridContainer/BtnGrupo5
-@onready var btn_grupo_6: Button = $VBoxContainer/GridContainer/BtnGrupo6
-@onready var lbl_status_local: Label = $VBoxContainer/LblStatusLocal
-@onready var btn_volver: Button = $VBoxContainer/BtnVolver
+@onready var txt_food: TextureRect = $VBoxContainer/HBoxFood/TxtFood
+@onready var lbl_food: Label = $VBoxContainer/HBoxFood/LblFood
+@onready var lbl_info: Label = $VBoxContainer/LblInfo
+@onready var lbl_score: Label = $VBoxContainer/HBoxBottom/LblScore
+@onready var btn_siguiente: Button = $VBoxContainer/HBoxBottom/BtnSiguiente
+@onready var group_buttons: Dictionary = {
+	"cereales": $VBoxContainer/GridContainer/BtnCereales,
+	"frutas_verduras": $VBoxContainer/GridContainer/BtnFrutasVerduras,
+	"lacteos": $VBoxContainer/GridContainer/BtnLacteos,
+	"carnes": $VBoxContainer/GridContainer/BtnCarnes,
+	"grasas": $VBoxContainer/GridContainer/BtnGrasas,
+	"azucares": $VBoxContainer/GridContainer/BtnAzucares,
+}
+
+var current_food: String = ""
 
 
 func _ready() -> void:
-	# Conexiones locales del GridContainer: mismo callback, distintos parámetros
-	btn_grupo_1.pressed.connect(_on_grupo_selected.bind(
-		"Cereales, raíces, tubérculos y plátanos",
-		"Nos dan la energía para jugar, estudiar y crecer."))
-	btn_grupo_2.pressed.connect(_on_grupo_selected.bind(
-		"Frutas y verduras",
-		"Tienen vitaminas, minerales y fibra para una buena digestión y un corazón sano."))
-	btn_grupo_3.pressed.connect(_on_grupo_selected.bind(
-		"Leche y productos lácteos",
-		"Aportan calcio y proteína para huesos y dientes fuertes."))
-	btn_grupo_4.pressed.connect(_on_grupo_selected.bind(
-		"Carnes, huevos, leguminosas, frutos secos y semillas",
-		"Dan proteína, hierro y zinc para formar músculos y prevenir la anemia."))
-	btn_grupo_5.pressed.connect(_on_grupo_selected.bind(
-		"Grasas",
-		"Dan energía y ayudan a usar algunas vitaminas. Se comen en poca cantidad."))
-	btn_grupo_6.pressed.connect(_on_grupo_selected.bind(
-		"Azúcares",
-		"Dan energía rápida, pero se deben comer pocas veces y en poca cantidad."))
+	for group_id in group_buttons:
+		var btn: Button = group_buttons[group_id]
+		btn.text = GlobalManager.groups[group_id]["short"]
+		_paint_button(btn, GlobalManager.groups[group_id]["color"])
+		btn.pressed.connect(_on_group_pressed.bind(group_id))
 
-	btn_volver.pressed.connect(func() -> void:
-		EventBus.navigation_requested.emit("res://src/scenes/main/menu_panel.tscn")
-	)
+	btn_siguiente.pressed.connect(_on_siguiente_pressed)
+	EventBus.food_changed.connect(_on_food_changed)
+	EventBus.placement_evaluated.connect(_on_placement_evaluated)
+	EventBus.score_changed.connect(_on_score_changed)
+
+	_on_score_changed(GlobalManager.current_score)
+	if GlobalManager.selection["food"] == "":
+		EventBus.next_food_requested.emit()
+	else:
+		_on_food_changed(GlobalManager.selection["food"])
 
 
-func _on_grupo_selected(nombre_grupo: String, funcion: String) -> void:
-	lbl_status_local.text = "%s\n%s" % [nombre_grupo, funcion]
-	print("Grupo seleccionado de forma local: ", nombre_grupo)
+func _on_group_pressed(group_id: String) -> void:
+	if current_food != "":
+		EventBus.food_placed.emit(current_food, group_id)
 
+
+func _on_siguiente_pressed() -> void:
+	if GlobalManager.is_round_finished():
+		EventBus.round_restart_requested.emit()
+	EventBus.next_food_requested.emit()
+
+
+func _on_food_changed(food_id: String) -> void:
+	current_food = food_id
+	_set_group_buttons_enabled(food_id != "")
+	btn_siguiente.text = "Siguiente alimento"
+	# Solo se avanza después de responder (evita saltar alimentos de la ronda)
+	btn_siguiente.disabled = food_id != ""
+	if food_id == "":
+		txt_food.texture = null
+		lbl_food.text = "¡Plato completo!"
+		return
+	txt_food.texture = load(GlobalManager.food_texture_path(food_id))
+	lbl_food.text = GlobalManager.foods[food_id]["name"]
+	lbl_info.text = "Toca el grupo al que pertenece."
+
+
+func _on_placement_evaluated(food_id: String, group_id: String, correct: bool) -> void:
+	var food_name: String = GlobalManager.foods[food_id]["name"]
+	var group: Dictionary = GlobalManager.groups[group_id]
+	if correct:
+		lbl_info.text = "¡Muy bien! %s es del grupo «%s».\n%s %s\n\nMensaje de las Guías Alimentarias: «%s»" % [
+			food_name, group["name"], group["function"], group["importance"],
+			GlobalManager.group_message(group_id)]
+	else:
+		lbl_info.text = "¡Casi! %s no va en «%s»." % [food_name, group["short"]]
+		if GlobalManager.settings["show_hints"]:
+			var right: Dictionary = GlobalManager.groups[GlobalManager.foods[food_id]["group"]]
+			lbl_info.text += "\nPista: busca el grupo que «%s»" % right["function"].to_lower()
+		lbl_info.text += "\nLo verás de nuevo más adelante."
+	current_food = ""
+	_set_group_buttons_enabled(false)
+	btn_siguiente.disabled = false
+	if GlobalManager.is_round_finished():
+		lbl_info.text += "\n\n¡Completaste tu plato! " + GlobalManager.GABA_MESSAGES[0]
+		btn_siguiente.text = "Jugar otra vez"
+
+
+func _on_score_changed(new_score: int) -> void:
+	lbl_score.text = "Puntos: %d   ·   Aciertos: %d / %d" % [
+		new_score, GlobalManager.selection["correct"], GlobalManager.round_size()]
+
+
+func _set_group_buttons_enabled(enabled: bool) -> void:
+	for group_id in group_buttons:
+		group_buttons[group_id].disabled = not enabled
+
+
+# Botón con el color de su división en el Plato saludable de la Familia Colombiana
+func _paint_button(btn: Button, color: Color) -> void:
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = color
+		if state == "hover":
+			sb.bg_color = color.lightened(0.15)
+		elif state == "pressed":
+			sb.bg_color = color.darkened(0.15)
+		elif state == "disabled":
+			sb.bg_color = color.darkened(0.45)
+		elif state == "focus":
+			sb.draw_center = false
+			sb.border_color = Color.WHITE
+			sb.set_border_width_all(3)
+		sb.set_corner_radius_all(10)
+		btn.add_theme_stylebox_override(state, sb)
+	btn.add_theme_color_override("font_color", Color(0.1, 0.1, 0.12))
+	btn.add_theme_color_override("font_hover_color", Color(0.1, 0.1, 0.12))
+	btn.add_theme_color_override("font_pressed_color", Color(0.1, 0.1, 0.12))
+	btn.add_theme_font_size_override("font_size", 18)

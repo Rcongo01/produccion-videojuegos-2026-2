@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/main/menu_panel.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
 
 [node name="MenuPanel" type="Control"]
 layout_mode = 3
@@ -32,23 +33,29 @@ theme_override_font_sizes/font_size = 34
 text = "Mi Plato Saludable"
 horizontal_alignment = 1
 
-[node name="BtnSimulacion" type="Button" parent="VBoxMenu"]
+[node name="BtnSimulacion" parent="VBoxMenu" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Iniciar juego"
+target_scene = "res://src/scenes/simulation/step_1_base.tscn"
 
-[node name="BtnConfig" type="Button" parent="VBoxMenu"]
+
+[node name="BtnConfig" parent="VBoxMenu" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Configuración"
+target_scene = "res://src/scenes/config/config_panel.tscn"
 
-[node name="BtnCredits" type="Button" parent="VBoxMenu"]
+
+[node name="BtnCredits" parent="VBoxMenu" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Créditos"
+target_scene = "res://src/scenes/credits/credits_panel.tscn"
+
 
 [node name="BtnExit" type="Button" parent="VBoxMenu"]
 custom_minimum_size = Vector2(0, 56)
