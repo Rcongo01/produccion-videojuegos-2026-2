@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/plate_process/plate_game/plate_sector.gd" id="1_sector"]
+
+[node name="PlateSector" type="Area2D" groups=["plate_sector"]]
+monitorable = true
+script = ExtResource("1_sector")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

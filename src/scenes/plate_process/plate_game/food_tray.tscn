@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/plate_process/plate_game/food_tray.gd" id="1_tray"]
+[ext_resource type="PackedScene" path="res://src/scenes/plate_process/plate_game/food_item.tscn" id="2_food"]
+
+[node name="FoodTray" type="Node2D" groups=["food_tray"]]
+script = ExtResource("1_tray")
+food_scene = ExtResource("2_food")

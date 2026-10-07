@@ -21,8 +21,11 @@ const GABA_MESSAGES: Array[String] = [
 ]
 
 # Los 6 grupos del plato. "message" es el índice del mensaje GABA asociado al grupo.
+# "plate_share" (Lab 6): fracción aproximada del plato que ocupa la división al dibujarlo.
 var groups: Dictionary = {
 	"cereales": {
+		"label": "Cereales y\ntubérculos",
+		"plate_share": 0.27,
 		"name": "Cereales, raíces, tubérculos y plátanos",
 		"short": "Cereales y tubérculos",
 		"color": Color("f2c14e"),
@@ -31,6 +34,8 @@ var groups: Dictionary = {
 		"message": 0,
 	},
 	"frutas_verduras": {
+		"label": "Frutas y\nverduras",
+		"plate_share": 0.3,
 		"name": "Frutas y verduras",
 		"short": "Frutas y verduras",
 		"color": Color("6abf4b"),
@@ -39,6 +44,8 @@ var groups: Dictionary = {
 		"message": 2,
 	},
 	"lacteos": {
+		"label": "Lácteos",
+		"plate_share": 0.14,
 		"name": "Leche y productos lácteos",
 		"short": "Lácteos",
 		"color": Color("4a90d9"),
@@ -47,6 +54,8 @@ var groups: Dictionary = {
 		"message": 1,
 	},
 	"carnes": {
+		"label": "Carnes, huevos\ny leguminosas",
+		"plate_share": 0.14,
 		"name": "Carnes, huevos, leguminosas secas, frutos secos y semillas",
 		"short": "Carnes, huevos y leguminosas",
 		"color": Color("e0533d"),
@@ -55,6 +64,8 @@ var groups: Dictionary = {
 		"message": 3,
 	},
 	"grasas": {
+		"label": "Grasas",
+		"plate_share": 0.08,
 		"name": "Grasas",
 		"short": "Grasas",
 		"color": Color("f08cb4"),
@@ -63,6 +74,8 @@ var groups: Dictionary = {
 		"message": 7,
 	},
 	"azucares": {
+		"label": "Azúcares",
+		"plate_share": 0.07,
 		"name": "Azúcares",
 		"short": "Azúcares",
 		"color": Color("9b6bc9"),
@@ -195,9 +208,8 @@ func _on_food_placed(food_id: String, group_id: String) -> void:
 		selection["correct"] += 1
 		selection["by_group"][group_id] += 1
 	else:
+		# Lab 6: el alimento mal ubicado regresa a su bandeja (no al mazo)
 		selection["wrong"] += 1
-		# Un alimento mal ubicado vuelve al mazo para intentarlo de nuevo
-		round_deck.push_front(food_id)
 	_update_score()
 	EventBus.placement_evaluated.emit(food_id, group_id, correct)
 

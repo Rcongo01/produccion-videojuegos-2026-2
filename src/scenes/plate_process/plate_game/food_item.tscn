@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/plate_process/plate_game/food_item.gd" id="1_food"]
+
+[sub_resource type="CircleShape2D" id="Circle_body"]
+radius = 42.0
+
+[sub_resource type="CircleShape2D" id="Circle_point"]
+radius = 6.0
+
+[node name="FoodItem" type="CharacterBody2D"]
+collision_mask = 0
+input_pickable = true
+script = ExtResource("1_food")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.62, 0.62)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Circle_body")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("Circle_point")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="LblName" type="Label" parent="."]
+offset_left = -70.0
+offset_top = 40.0
+offset_right = 70.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0.08, 0.15, 0.12, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
+text = "Alimento"
+horizontal_alignment = 1
