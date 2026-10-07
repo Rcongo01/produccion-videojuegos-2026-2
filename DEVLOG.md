@@ -16,3 +16,20 @@
 
 * *Desafío:* Mostrar información distinta para seis grupos sin escribir seis funciones.
 * *Solución:* Un solo callback recibe `nombre_grupo` y `funcion` gracias a `.bind()`.
+
+## [2026-10-03] - Laboratorio 3: Arquitectura de Navegación Desacoplada
+
+### Actividades Realizadas
+
+* Inicialización de la rama de trabajo `lab-3`.
+* Implementación de `EventBus` como Autoload con `navigation_requested` y `parameter_changed`.
+* Creación de `MainApp` + `SceneContainer` como escena principal y único responsable de instanciar pantallas.
+* Fondo persistente en `MainApp` que se conserva durante la navegación.
+* Menú y pantalla de grupos del plato refactorizados para emitir solicitudes al bus.
+* Paneles de Configuración (opción "Mostrar pistas") y Créditos (autor y fuente GABA).
+* ADR movidos a `doc/adr/`; creación de ADR-002.
+
+### Desafíos y Soluciones
+
+* *Desafío:* Entender la comunicación indirecta entre paneles y orquestador.
+* *Solución:* Las pantallas solo emiten intenciones; `MainApp` es el único que sabe cargar escenas.

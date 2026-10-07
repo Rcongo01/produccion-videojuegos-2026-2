@@ -9,7 +9,7 @@
 **Universidad Antonio Nariño (UAN)**<br>
 Facultad de Ingeniería de Sistemas y Computación
 
-![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%202%20de%207-f2c14e)
+![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%203%20de%207-f2c14e)
 
 </div>
 
@@ -23,13 +23,15 @@ El plato aparece en el centro con sus **6 grupos de alimentos** y los alimentos 
 
 Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece guía tras guía siguiendo buenas prácticas de ingeniería de software.
 
-![Pantalla para conocer los grupos del plato](doc/img/guia_2.jpg)
+![Menú con navegación desacoplada](doc/img/guia_3.jpg)
 
-<sub>Pantalla para conocer los grupos del plato · estado al cerrar la Guía 2</sub>
+<sub>Menú con navegación desacoplada · estado al cerrar la Guía 3</sub>
 
 ## 🎮 Cómo se juega
 
-- Pulsa **Iniciar juego** y toca cada uno de los 6 grupos para leer para qué sirve.
+- **Iniciar juego**: conoce los 6 grupos del plato.
+- **Configuración**: activa o desactiva las pistas.
+- **Créditos**: autoría y fuente del contenido.
 
 ## 🥗 Los 6 grupos del plato
 
@@ -48,7 +50,7 @@ Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece g
 |:---:|---|---|:---:|
 | 1 | Entorno y arquitectura base | Proyecto inicial, estructura `src/` y primer menú. | ✅ |
 | 2 | Escenas, nodos y co-localización | Menú y pantalla para conocer los 6 grupos del plato con `.bind()`. | ✅ |
-| 3 | Navegación desacoplada (Event Bus) | `EventBus`, orquestador `MainApp`, Configuración y Créditos. | ⏳ |
+| 3 | Navegación desacoplada (Event Bus) | `EventBus`, orquestador `MainApp`, Configuración y Créditos. | ✅ |
 | 4 | Estado global y ButtonNav | `GlobalManager` con los datos del plato; primera versión jugable por botones. | ⏳ |
 | 5 | Entrada, movimiento y mecánicas | Minijuego *Atrapa frutas y verduras* y estrellas de bonificación. | ⏳ |
 | 6 | Máquinas de estado y Tweens | El plato interactivo: arrastrar cada alimento a su grupo. | ⏳ |
@@ -60,16 +62,21 @@ Cada guía se desarrolla en su propia rama `lab-N`, se fusiona en `main` y se ma
 
 - Cada pantalla vive en su carpeta con su escena `.tscn` y su script `.gd` (co-localización).
 - Señales conectadas por código con `@onready` + `.connect()` y un callback reutilizado con `.bind()`.
+- **`EventBus`** (Autoload): señales globales; las pantallas solo emiten intenciones (patrón Observer).
+- **`MainApp`**: única escena principal; instancia y libera pantallas dentro de `SceneContainer`.
 
 ## 📁 Estructura de Directorios del Repositorio
 
 ```
 src/
+├── core/
 └── scenes/
+    ├── config/
+    ├── credits/
     ├── main/
     └── simulation/
 doc/
-├── ADR-001-colocalizacion.md
+├── adr/      Registros de decisiones de arquitectura (ADR)
 ├── guias/    Qué se aplicó de cada guía
 └── img/      Capturas para este README
 DEVLOG.md     Bitácora de desarrollo
@@ -98,13 +105,14 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 
 ## 🏷️ Versiones
 
-`lab-1` · `lab-2` · `lab-2-final`
+`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final`
 
 ## 📚 Documentación
 
 - [`DEVLOG.md`](DEVLOG.md): bitácora de desarrollo, una entrada por guía.
 - [`doc/guias/guia_02_colocalizacion.md`](doc/guias/guia_02_colocalizacion.md): qué pide la Guía 2 y cómo se aplicó al juego.
-- Decisiones de arquitectura: [ADR-001](doc/ADR-001-colocalizacion.md).
+- [`doc/guias/guia_03_event_bus.md`](doc/guias/guia_03_event_bus.md): qué pide la Guía 3 y cómo se aplicó al juego.
+- Decisiones de arquitectura: [ADR-001](doc/adr/ADR-001-colocalizacion.md), [ADR-002](doc/adr/ADR-002-event-bus-navegacion.md).
 
 ## 📜 Créditos y licencias
 
