@@ -89,3 +89,37 @@
 * *Solución:* Buscar bandejas entre los hijos de la propia escena (`$Trays`) y filtrar spawners con `is_ancestor_of()`.
 * *Desafío:* En el minijuego, las frutas laterales salían del embudo y no se podían atrapar.
 * *Solución:* Rango de impulso exportado por spawner para lanzarlas siempre hacia adentro.
+
+## [2026-10-03] - Laboratorio 7: Vertical Slice, Persistencia y Publicación Web
+
+### Actividades Realizadas
+
+* Persistencia en `GlobalManager` con `FileAccess` + JSON en `user://save_data.json`: estrellas, récord, grupos descubiertos y preferencia de pistas. La ronda en curso se mantiene como estado temporal.
+* Tema global con la tipografía Fredoka, botones y tarjetas consistentes; fondo persistente con siluetas de alimentos.
+* Menú rediseñado con logo y estadísticas; nueva pantalla "Mis grupos del plato"; opción para borrar el progreso.
+* Preset Web (sin hilos, sin cabeceras de aislamiento, release) y exportación a `build/web/index.html`.
+* Prueba de la build en Chromium: juego, arrastre con mouse y persistencia en IndexedDB al cerrar y reabrir.
+* Build Web lista para comprimir y subir a itch.io (contenido de `build/web/`).
+
+### Desafíos y Soluciones
+
+* **Desafío:** Las estrellas desaparecían al cerrar el juego.
+* **Solución:** Persistencia con FileAccess y JSON; se normalizan los enteros (JSON los devuelve como float) y se usa `assign()` para el Array tipado.
+* **Desafío:** El proyecto debía ejecutarse desde un navegador.
+* **Solución:** Exportación Web sin hilos y validación en Chromium, incluida la persistencia.
+* **Desafío:** Algunos símbolos (→, ◀, ▶) no existen en la tipografía elegida.
+* **Solución:** Reemplazo por texto e íconos dibujados.
+* **Desafío:** Al abrir el proyecto por primera vez, el tema intentaba cargar la fuente `.ttf` antes de que Godot la importara y mostraba un error.
+* **Solución:** La fuente se guardó como recurso nativo de Godot (`fredoka.res`), que no depende de la importación.
+* **Desafío:** `export_presets.cfg` estaba excluido en `.gitignore`, así que el preset Web se perdía al clonar el repositorio.
+* **Solución:** Se dejó versionado; solo contiene rutas relativas (`build/web/index.html`). Se excluye `build/` en su lugar.
+
+### Publicación
+
+**Repositorio:** https://github.com/Rcongo01/produccion-videojuegos-2026-2
+
+**URL itch.io:** [PEGAR URL SECRETA DEL PROYECTO EN ITCH.IO]
+
+### Estado Final
+
+El Vertical Slice fue integrado, refinado y exportado para Web; queda listo para publicarse en itch.io.
