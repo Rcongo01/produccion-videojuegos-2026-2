@@ -1,4 +1,4 @@
-# res://src/scenes/gamification/player.gd
+# res://src/scenes/gamification/catch_food/player.gd
 # Lab 5: la canasta. La entrada se lee por ACCIONES (move_left / move_right), no por teclas:
 # teclado, flechas o los botones táctiles de la pantalla producen la misma intención.
 extends CharacterBody2D

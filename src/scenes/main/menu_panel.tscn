@@ -38,7 +38,7 @@ custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Armar mi plato"
-target_scene = "res://src/scenes/plate_process/plate_panel.tscn"
+target_scene = "res://src/scenes/plate_process/plate_game/plate_game_main.tscn"
 
 [node name="BtnBonusEvent" parent="VBoxMenu" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 56)

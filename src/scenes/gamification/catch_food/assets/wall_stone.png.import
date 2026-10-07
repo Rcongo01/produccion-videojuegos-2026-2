@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b23gh50nnkgr4"
-path="res://.godot/imported/floor_wood.png-832d6b2703f9b2ed106f29c2638c96eb.ctex"
+uid="uid://ch7q5ohylmr70"
+path="res://.godot/imported/wall_stone.png-6c92fcfeed557a4bd1a72b0c887cfc9a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/scenes/gamification/assets/floor_wood.png"
-dest_files=["res://.godot/imported/floor_wood.png-832d6b2703f9b2ed106f29c2638c96eb.ctex"]
+source_file="res://src/scenes/gamification/catch_food/assets/wall_stone.png"
+dest_files=["res://.godot/imported/wall_stone.png-6c92fcfeed557a4bd1a72b0c887cfc9a.ctex"]
 
 [params]
 

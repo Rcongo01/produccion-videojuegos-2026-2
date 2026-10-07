@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://src/scenes/gamification/falling_food.gd" id="1_ff"]
+[ext_resource type="Script" path="res://src/scenes/gamification/catch_food/falling_food.gd" id="1_ff"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bounce"]
 bounce = 0.45

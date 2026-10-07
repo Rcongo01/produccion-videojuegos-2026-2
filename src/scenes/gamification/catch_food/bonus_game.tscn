@@ -1,12 +1,12 @@
 [gd_scene load_steps=14 format=3]
 
-[ext_resource type="Script" path="res://src/scenes/gamification/bonus_game.gd" id="1_game"]
-[ext_resource type="Script" path="res://src/scenes/gamification/player.gd" id="2_player"]
-[ext_resource type="Texture2D" path="res://src/scenes/gamification/assets/canasta.png" id="3_basket"]
-[ext_resource type="Texture2D" path="res://src/scenes/gamification/assets/floor_wood.png" id="4_floor"]
-[ext_resource type="Texture2D" path="res://src/scenes/gamification/assets/wall_stone.png" id="5_wall"]
-[ext_resource type="Script" path="res://src/scenes/gamification/spawner.gd" id="6_spawner"]
-[ext_resource type="PackedScene" path="res://src/scenes/gamification/falling_food.tscn" id="7_food"]
+[ext_resource type="Script" path="res://src/scenes/gamification/catch_food/bonus_game.gd" id="1_game"]
+[ext_resource type="Script" path="res://src/scenes/gamification/catch_food/player.gd" id="2_player"]
+[ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/canasta.png" id="3_basket"]
+[ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/floor_wood.png" id="4_floor"]
+[ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/wall_stone.png" id="5_wall"]
+[ext_resource type="Script" path="res://src/scenes/gamification/catch_food/spawner.gd" id="6_spawner"]
+[ext_resource type="PackedScene" path="res://src/scenes/gamification/catch_food/falling_food.tscn" id="7_food"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="8_nav"]
 
 [sub_resource type="RectangleShape2D" id="Rect_player"]
@@ -87,7 +87,7 @@ shape = SubResource("Rect_collect")
 [node name="Spawner1" type="Node2D" parent="." groups=["spawner"]]
 position = Vector2(480, -30)
 script = ExtResource("6_spawner")
-max_active_items = 4
+max_active_items = 5
 spawn_interval = 1.4
 collectable_scene = ExtResource("7_food")
 
@@ -96,7 +96,7 @@ collectable_scene = ExtResource("7_food")
 [node name="Spawner2" type="Node2D" parent="." groups=["spawner"]]
 position = Vector2(640, -30)
 script = ExtResource("6_spawner")
-max_active_items = 3
+max_active_items = 4
 spawn_interval = 1.9
 collectable_scene = ExtResource("7_food")
 
@@ -105,7 +105,7 @@ collectable_scene = ExtResource("7_food")
 [node name="Spawner3" type="Node2D" parent="." groups=["spawner"]]
 position = Vector2(800, -30)
 script = ExtResource("6_spawner")
-max_active_items = 4
+max_active_items = 5
 spawn_interval = 2.3
 collectable_scene = ExtResource("7_food")
 
@@ -114,20 +114,24 @@ collectable_scene = ExtResource("7_food")
 [node name="SpawnerSideLeft" type="Node2D" parent="." groups=["spawner"]]
 position = Vector2(330, 140)
 script = ExtResource("6_spawner")
-max_active_items = 3
+max_active_items = 4
 spawn_interval = 2.7
 collectable_scene = ExtResource("7_food")
 use_parabola = true
+impulse_min_x = 60
+impulse_max_x = 260
 
 [node name="Timer" type="Timer" parent="SpawnerSideLeft"]
 
 [node name="SpawnerSideRight" type="Node2D" parent="." groups=["spawner"]]
 position = Vector2(950, 140)
 script = ExtResource("6_spawner")
-max_active_items = 3
+max_active_items = 4
 spawn_interval = 3.1
 collectable_scene = ExtResource("7_food")
 use_parabola = true
+impulse_min_x = -260
+impulse_max_x = -60
 
 [node name="Timer" type="Timer" parent="SpawnerSideRight"]
 

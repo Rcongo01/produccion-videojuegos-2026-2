@@ -1,0 +1,231 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/plate_process/plate_game/plate_game_main.gd" id="1_main"]
+[ext_resource type="Script" path="res://src/scenes/plate_process/plate_game/plate.gd" id="2_plate"]
+[ext_resource type="PackedScene" path="res://src/scenes/plate_process/plate_game/food_tray.tscn" id="3_tray"]
+[ext_resource type="PackedScene" path="res://src/scenes/plate_process/plate_game/plate_sector.tscn" id="4_sector"]
+[ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="5_nav"]
+
+[sub_resource type="StyleBoxFlat" id="Style_info"]
+bg_color = Color(0.08, 0.17, 0.14, 0.92)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 0.4)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+content_margin_left = 22.0
+content_margin_top = 18.0
+content_margin_right = 22.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="Style_result"]
+bg_color = Color(0.08, 0.17, 0.14, 0.97)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.95, 0.76, 0.31, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+content_margin_left = 30.0
+content_margin_top = 26.0
+content_margin_right = 30.0
+content_margin_bottom = 26.0
+
+[node name="PlateGame" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Plate" type="Node2D" parent="."]
+position = Vector2(470, 395)
+script = ExtResource("2_plate")
+sector_scene = ExtResource("4_sector")
+
+[node name="Trays" type="Node2D" parent="."]
+
+[node name="FoodTray1" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(600, 136)
+
+[node name="FoodTray2" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(784, 288)
+
+[node name="FoodTray3" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(784, 502)
+
+[node name="FoodTray4" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(600, 654)
+
+[node name="FoodTray5" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(340, 654)
+
+[node name="FoodTray6" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(156, 502)
+
+[node name="FoodTray7" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(156, 288)
+
+[node name="FoodTray8" parent="Trays" instance=ExtResource("3_tray")]
+position = Vector2(340, 136)
+
+[node name="TimerGameover" type="Timer" parent="."]
+process_callback = 1
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 860.0
+offset_bottom = 66.0
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="BtnBack" parent="CanvasLayer/HUD" instance=ExtResource("5_nav")]
+custom_minimum_size = Vector2(110, 48)
+layout_mode = 2
+text = "Salir"
+target_scene = "res://src/scenes/main/menu_panel.tscn"
+discard_previous = true
+
+[node name="LblCount" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "Alimentos: 0 / 12"
+vertical_alignment = 1
+
+[node name="LblTime" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Tiempo: 150"
+vertical_alignment = 1
+
+[node name="InfoPanel" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -410.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_info")
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/InfoPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="HBoxTitle" type="HBoxContainer" parent="CanvasLayer/InfoPanel/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="CanvasLayer/InfoPanel/VBox/HBoxTitle"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LblTitle" type="Label" parent="CanvasLayer/InfoPanel/VBox/HBoxTitle"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "Arma tu plato"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LblBody" type="Label" parent="CanvasLayer/InfoPanel/VBox"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "..."
+autowrap_mode = 3
+
+[node name="LblMessageTitle" type="Label" parent="CanvasLayer/InfoPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.76, 0.31, 1)
+theme_override_font_sizes/font_size = 16
+text = "Mensaje de las Guías Alimentarias"
+
+[node name="LblMessage" type="Label" parent="CanvasLayer/InfoPanel/VBox"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "..."
+autowrap_mode = 3
+
+[node name="ResultPanel" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -230.0
+offset_right = 330.0
+offset_bottom = 230.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_result")
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/ResultPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="LblTitle" type="Label" parent="CanvasLayer/ResultPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Resultado"
+horizontal_alignment = 1
+
+[node name="LblDesc" type="Label" parent="CanvasLayer/ResultPanel/VBox"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "..."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="LblCount" type="Label" parent="CanvasLayer/ResultPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Alimentos ubicados: 0 / 12"
+horizontal_alignment = 1
+
+[node name="LblMessage" type="Label" parent="CanvasLayer/ResultPanel/VBox"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.76, 0.31, 1)
+theme_override_font_sizes/font_size = 18
+text = "..."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxButtons" type="HBoxContainer" parent="CanvasLayer/ResultPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="BtnSummary" parent="CanvasLayer/ResultPanel/VBox/HBoxButtons" instance=ExtResource("5_nav")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ver mi plato"
+target_scene = "res://src/scenes/plate_process/plate_summary.tscn"
+
+[node name="BtnMenu" parent="CanvasLayer/ResultPanel/VBox/HBoxButtons" instance=ExtResource("5_nav")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Menú"
+target_scene = "res://src/scenes/main/menu_panel.tscn"
+discard_previous = true

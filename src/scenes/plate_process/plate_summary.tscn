@@ -58,6 +58,6 @@ text = "Confirmar plato"
 
 [node name="BtnBack" parent="VBoxContainer" instance=ExtResource("2_nav")]
 layout_mode = 2
-text = "Volver al plato"
-target_scene = "res://src/scenes/plate_process/plate_panel.tscn"
+text = "Jugar otro plato"
+target_scene = "res://src/scenes/plate_process/plate_game/plate_game_main.tscn"
 discard_previous = true
