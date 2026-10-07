@@ -70,3 +70,22 @@
 * *Solución:* El minijuego solo emite `bonus_obtained`; `GlobalManager` administra y el resumen consulta.
 * *Desafío:* Que el reto fuera alcanzable por niños.
 * *Solución:* Meta de 8 frutas; se verificó con un bot automatizado que es ganable.
+
+## [2026-10-03] - Laboratorio 6: Máquina de Estado Finito y Animaciones Programáticas
+
+### Actividades Realizadas
+
+* Minijuego anterior movido a `gamification/catch_food/`.
+* Nuevo juego principal "Arma tu plato": el Plato saludable de la Familia Colombiana dibujado con sus 6 divisiones y 8 puestos de alimentos alrededor.
+* FSM por alimento (`APARECIENDO`, `DISPONIBLE`, `ARRASTRANDO`, `UBICADO`, `RECHAZADO`) con transiciones validadas en `change_state()`.
+* Animaciones `Tween` por transición (aparición, tomar, volver, servir en el plato, rechazo).
+* Panel lateral: al acertar muestra la función del grupo, por qué es importante y el mensaje GABA; al fallar, una pista.
+* Controlador con temporizador de 150 s, contador, panel de resultado y estrella por plato perfecto vía `EventBus`.
+* `SceneContainer` con `mouse_filter = pass` e input `interact`.
+
+### Desafíos y Soluciones
+
+* *Desafío:* Al empezar una partida nueva algunos alimentos aparecían en la escena anterior, que seguía un fotograma en el árbol tras `queue_free()`.
+* *Solución:* Buscar bandejas entre los hijos de la propia escena (`$Trays`) y filtrar spawners con `is_ancestor_of()`.
+* *Desafío:* En el minijuego, las frutas laterales salían del embudo y no se podían atrapar.
+* *Solución:* Rango de impulso exportado por spawner para lanzarlas siempre hacia adentro.
