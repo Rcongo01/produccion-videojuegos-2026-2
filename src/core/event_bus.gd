@@ -16,3 +16,6 @@ signal hints_toggled(enabled: bool)
 signal food_changed(food_id: String)
 signal placement_evaluated(food_id: String, group_id: String, correct: bool)
 signal score_changed(new_score: int)
+
+# Lab 5: una actividad externa (minijuego) produjo una recompensa
+signal bonus_obtained(bonus: Dictionary)

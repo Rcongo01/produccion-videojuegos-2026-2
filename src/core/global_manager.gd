@@ -129,6 +129,10 @@ var selection: Dictionary = {
 var round_deck: Array[String] = []
 var current_score: int = 0
 
+# Lab 5: estrellas de bonificación obtenidas en el minijuego.
+# Ejemplo: {"value": 30, "minimum_score": 60}
+var bonuses: Array[Dictionary] = []
+
 # Preferencias que sobreviven al cambio de pantalla
 var settings: Dictionary = {"show_hints": true}
 
@@ -137,6 +141,7 @@ func _ready() -> void:
 	EventBus.next_food_requested.connect(_on_next_food_requested)
 	EventBus.food_placed.connect(_on_food_placed)
 	EventBus.round_restart_requested.connect(reset_round)
+	EventBus.bonus_obtained.connect(_on_bonus_obtained)
 	EventBus.hints_toggled.connect(func(enabled: bool) -> void: settings["show_hints"] = enabled)
 	reset_round()
 
@@ -215,3 +220,27 @@ func food_texture_path(food_id: String) -> String:
 
 func group_message(group_id: String) -> String:
 	return GABA_MESSAGES[groups[group_id]["message"]]
+
+
+# --- Lab 5: reglas de negocio de las estrellas de bonificación --------------------------
+# Datos: valor de la estrella, puntaje mínimo y estrellas guardadas.
+# Reglas: una estrella por plato, se aplica la de mayor valor entre las válidas,
+# solo es válida si el plato alcanza el puntaje mínimo.
+
+func _on_bonus_obtained(bonus: Dictionary) -> void:
+	print("Estrella obtenida: ", bonus)
+	bonuses.append(bonus)
+
+
+func get_best_bonus(subtotal: int) -> Dictionary:
+	var best_bonus := {}
+	for bonus in bonuses:
+		if subtotal >= bonus["minimum_score"]:
+			if best_bonus.is_empty() or bonus["value"] > best_bonus["value"]:
+				best_bonus = bonus
+	return best_bonus
+
+
+func remove_bonus(bonus: Dictionary) -> void:
+	if bonus in bonuses:
+		bonuses.erase(bonus)

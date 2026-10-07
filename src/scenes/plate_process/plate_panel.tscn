@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://src/scenes/simulation/step_1_base.gd" id="1_step"]
+[ext_resource type="Script" path="res://src/scenes/plate_process/plate_panel.gd" id="1_step"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
 
-[node name="Step1Base" type="Control"]
+[node name="PlatePanel" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,14 +104,20 @@ theme_override_font_sizes/font_size = 22
 text = "Puntos: 0"
 
 [node name="BtnSiguiente" type="Button" parent="VBoxContainer/HBoxBottom"]
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(200, 52)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Siguiente alimento"
 
-[node name="BtnVolver" parent="VBoxContainer/HBoxBottom" instance=ExtResource("2_nav")]
-custom_minimum_size = Vector2(200, 52)
+[node name="BtnResumen" parent="VBoxContainer/HBoxBottom" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(170, 52)
 layout_mode = 2
-text = "Volver al menú"
+text = "Ver mi plato"
+target_scene = "res://src/scenes/plate_process/plate_summary.tscn"
+
+[node name="BtnVolver" parent="VBoxContainer/HBoxBottom" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(160, 52)
+layout_mode = 2
+text = "Menú"
 target_scene = "res://src/scenes/main/menu_panel.tscn"
 discard_previous = true

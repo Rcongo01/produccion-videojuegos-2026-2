@@ -1,4 +1,4 @@
-# res://src/scenes/simulation/step_1_base.gd
+# res://src/scenes/plate_process/plate_panel.gd  (antes step_1_base, renombrado en el Lab 5)
 # Lab 4: interfaz reactiva del juego del plato.
 #   - Los botones solo EMITEN intenciones al EventBus (food_placed, next_food_requested).
 #   - GlobalManager evalúa, actualiza el puntaje y emite el resultado.
