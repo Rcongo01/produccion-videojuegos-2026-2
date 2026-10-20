@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="OrderData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/order_data.gd" id="1_order"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/kids/lucia.png" id="2_avatar"]
+
+[resource]
+script = ExtResource("1_order")
+id = "lucia"
+kid_name = "Lucía"
+avatar = ExtResource("2_avatar")
+request = "Hoy nada de azúcar, por favor."
+rule = "sin_azucar"
+rule_values = PackedStringArray()
+rule_number = 0
+time_limit = 40
+success_text = "¡Una lonchera sin azúcar agregada!"
+fail_text = "Mi lonchera tenía productos con mucha azúcar."

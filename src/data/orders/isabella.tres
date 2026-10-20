@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="OrderData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/order_data.gd" id="1_order"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/kids/isabella.png" id="2_avatar"]
+
+[resource]
+script = ExtResource("1_order")
+id = "isabella"
+kid_name = "Isabella"
+avatar = ExtResource("2_avatar")
+request = "¡Me encantan las frutas rojas! Quiero una en mi lonchera."
+rule = "contiene"
+rule_values = PackedStringArray("fresa", "manzana", "sandia")
+rule_number = 0
+time_limit = 40
+success_text = "¡Mi fruta roja favorita!"
+fail_text = "Quería una fruta roja: fresas, manzana o sandía."
