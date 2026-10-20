@@ -52,9 +52,9 @@ horizontal_alignment = 1
 [node name="LblDesc" type="Label" parent="Card/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 19
-text = "Mueve la canasta con las flechas (o A / D) y atrapa frutas y verduras.
-Si lo logras ganas una estrella que suma puntos extra a tu plato.
-La participación es voluntaria."
+text = "Atrapa lo saludable: mueve la canasta con las flechas (o A / D), atrapa 10 frutas y verduras y esquiva las gaseosas y los ultraprocesados (¡los del sello negro!).
+Tienes 3 vidas. Gana sin perder ninguna y la estrella vale más.
+La estrella suma puntos a tu plato o a tu Lonchera Express. La participación es voluntaria."
 horizontal_alignment = 1
 autowrap_mode = 3
 

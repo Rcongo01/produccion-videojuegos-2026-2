@@ -3,7 +3,8 @@
 # teclado, flechas o los botones táctiles de la pantalla producen la misma intención.
 extends CharacterBody2D
 
-signal collected_food
+# Lab 9: indica si lo atrapado era saludable y dónde estaba
+signal collected_food(healthy: bool, food_name: String, at: Vector2)
 
 @export var speed: float = 420.0
 
@@ -20,5 +21,5 @@ func _physics_process(_delta: float) -> void:
 
 func _on_collect_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("collectable"):
-		collected_food.emit()
+		collected_food.emit(body.healthy, body.display_name, body.global_position)
 		body.queue_free()
