@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="IngredientData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/ingredient_data.gd" id="1_data"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/lunchbox/chocolatina.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://src/assets/foods/chocolatina.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_data")
+id = "chocolatina"
+display_name = "Chocolatina"
+texture = ExtResource("2_tex")
+price = 5
+kind = "snack"
+healthy = false
+seals = PackedStringArray("azucares", "grasas")
+icon = ExtResource("3_icon")
+group_id = "azucares"
+tip = "La chocolatina tiene sellos de azúcares y grasas saturadas."
