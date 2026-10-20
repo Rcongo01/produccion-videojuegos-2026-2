@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="OrderData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/order_data.gd" id="1_order"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/kids/mateo.png" id="2_avatar"]
+
+[resource]
+script = ExtResource("1_order")
+id = "mateo"
+kid_name = "Mateo"
+avatar = ExtResource("2_avatar")
+request = "No me gusta la leche, pero necesito calcio para mis huesos."
+rule = "contiene"
+rule_values = PackedStringArray("queso")
+rule_number = 0
+time_limit = 45
+success_text = "¡El queso tiene calcio y me encanta!"
+fail_text = "Necesitaba un alimento con calcio que no fuera leche, como el queso."

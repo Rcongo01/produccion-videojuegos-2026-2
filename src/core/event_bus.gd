@@ -18,6 +18,11 @@ signal sound_requested(sound_name: String)
 signal sound_toggled(enabled: bool)
 signal tutorial_completed()
 
+# Lab 9: lonchera interactiva (equivalente a la pizza de la guía)
+# slot: compartimento de la lonchera (0 bebida, 1 fruta, 2 principal, 3 snack); en la guía es "half"
+signal ingredient_selected(ingredient_id: String, slot: int)
+signal lunchbox_total_changed(new_total: int)
+
 # Resultados del GlobalManager -> interfaz
 signal food_changed(food_id: String)
 signal placement_evaluated(food_id: String, group_id: String, correct: bool)

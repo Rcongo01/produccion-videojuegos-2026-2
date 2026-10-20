@@ -3,6 +3,7 @@
 # Lab 7: muestra el progreso persistente y oculta "Salir" en la versión Web.
 # Lab 8: menú decorado (fondo ilustrado + mascota Nutri). La mascota "respira" con un Tween
 #        y su globo rota consejos de las Guías Alimentarias para dar vida a la pantalla.
+# Lab 9: botón "Arma tu lonchera" (ButtonNav configurado en el Inspector, sin código nuevo).
 extends Control
 
 const TIP_INTERVAL := 7.0
@@ -23,13 +24,14 @@ func _ready() -> void:
 	)
 	if OS.has_feature("web"):
 		btn_exit.hide()
-	lbl_stats.text = "Récord: %d · Estrellas: %d · Grupos descubiertos: %d / %d" % [
-		GlobalManager.best_score, GlobalManager.bonuses.size(),
+	lbl_stats.text = "Récord: %d · Lonchera: %d · Estrellas: %d · Grupos: %d / %d" % [
+		GlobalManager.best_score, GlobalManager.lunch_best, GlobalManager.bonuses.size(),
 		GlobalManager.groups_learned.size(), GlobalManager.groups.size()]
 
 	tips.append("¡Hola! Soy Nutri. Te ayudo a servir un plato saludable.")
 	if GlobalManager.groups_learned.size() < GlobalManager.groups.size():
 		tips.append("Ya descubriste %d de 6 grupos. ¡Arma un plato para encontrar los demás!" % GlobalManager.groups_learned.size())
+	tips.append("¡Prueba Lonchera Express! Los niños te esperan con sus pedidos. Ojo con los sellos negros.")
 	for message in GlobalManager.GABA_MESSAGES:
 		tips.append(message)
 

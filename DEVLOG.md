@@ -152,3 +152,34 @@ El Vertical Slice fue integrado, refinado y exportado para Web; queda listo para
 ### Estado Final
 
 Se realizó una evaluación de la experiencia de usuario y se aplicaron mejoras visuales y de comunicación sobre el proyecto.
+
+## [2026-10-19] - Laboratorio 9: Interfaz Dinámica y Representación de Datos
+
+### Actividades Realizadas
+
+* Se creó `IngredientData` mediante `Resource` (`id`, `display_name`, `texture`, `price` = puntos saludables, más `kind`, `healthy`, `seals`, `icon`, `group_id` y `tip`).
+* Se crearon recursos para 31 alimentos: primero los 19 saludables y luego 12 ultraprocesados y de comida rápida sin modificar el código (Reto 1).
+* Se creó el catálogo `IngredientDatabase` (`ingredient_database.tres`) y el acceso `GlobalManager.ingredients`.
+* Se crearon los pedidos de los niños como Resources (`OrderData`, `OrderDatabase`, 9 pedidos con reglas).
+* Se implementó una interfaz auto-poblada: `lunchbox_interactive` genera un botón con ícono, nombre, puntos y sellos por cada alimento del compartimento elegido (Retos 2 y 3).
+* Se implementó la selección de los cuatro compartimentos de la lonchera (`LunchboxComposition`, botones planos, Flip H).
+* Se incorporó la selección de alimentos con `EventBus.ingredient_selected` y el estado `lunchbox_selection` / `lunchbox_total`.
+* Se actualizó visualmente la composición de la lonchera y se reconstruye al volver a la escena (Reto 4).
+* Se incorporó retroalimentación visual mediante `Tween` (destello de selección, aparición del alimento, llegada del niño, estrellas una a una, reacción de Nutri y aviso de poco tiempo).
+* **Lonchera Express:** ronda de 4 pedidos con tiempo límite, calificación de 1 a 3 estrellas, bonificación por pedido y por rapidez, resultados con la estrella del minijuego, récord guardado y `LunchboxSuccessPopup`.
+* **Atrapa lo saludable:** el minijuego ahora también lanza ultraprocesados del catálogo; quitan vidas, el juego se acelera y una partida perfecta da una estrella dorada.
+
+### Desafíos y Soluciones
+
+* **Desafío:** Los íconos de los alimentos se veían como siluetas oscuras en los botones.
+* **Solución:** El Theme del Lab 8 tiñe los íconos; en los botones generados se anulan los colores de ícono con blanco.
+* **Desafío:** Con muchos alimentos, el botón para entregar quedaba fuera de la vista dentro del `ScrollContainer`.
+* **Solución:** El scroll solo envuelve la lista y además se filtra por compartimento; el total y los botones quedan fijos.
+* **Desafío:** En el minijuego cada spawner dejaba de lanzar alimentos al llegar a su límite y, si el niño no atrapaba lo suficiente, la partida nunca terminaba.
+* **Solución:** Cada alimento libera su cupo al salir del árbol (`tree_exited`) y la partida termina al lanzar 30 alimentos.
+* **Desafío:** Al abrir el proyecto por primera vez, el Theme intentaba cargar los íconos de los interruptores antes de que Godot los importara.
+* **Solución:** Los íconos de los interruptores se asignan en la escena de Ajustes y no en el Theme.
+
+### Estado Final
+
+Se implementó una interfaz dinámica para seleccionar alimentos y modificar visualmente la composición de una lonchera, convertida en el juego de pedidos Lonchera Express.

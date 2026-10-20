@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="IngredientData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/ingredient_data.gd" id="1_data"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/lunchbox/queso.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://src/assets/foods/queso.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_data")
+id = "queso"
+display_name = "Queso"
+texture = ExtResource("2_tex")
+price = 30
+kind = "snack"
+healthy = true
+seals = PackedStringArray()
+icon = ExtResource("3_icon")
+group_id = "lacteos"
+tip = "El queso tiene calcio, como la leche."

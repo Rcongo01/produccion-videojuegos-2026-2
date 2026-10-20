@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="OrderData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/order_data.gd" id="1_order"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/kids/sofia.png" id="2_avatar"]
+
+[resource]
+script = ExtResource("1_order")
+id = "sofia"
+kid_name = "Sofía"
+avatar = ExtResource("2_avatar")
+request = "Mi mamá dice: nada de productos de paquete con sellos."
+rule = "sin_sellos"
+rule_values = PackedStringArray()
+rule_number = 0
+time_limit = 45
+success_text = "¡Cero sellos! Mi mamá va a estar feliz."
+fail_text = "Mi lonchera tenía productos con sellos de advertencia."

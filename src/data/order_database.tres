@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="OrderDatabase" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://src/data/order_database.gd" id="1_db"]
+[ext_resource type="Script" path="res://src/data/order_data.gd" id="2_order"]
+[ext_resource type="Resource" path="res://src/data/orders/valentina.tres" id="3_valentina"]
+[ext_resource type="Resource" path="res://src/data/orders/mateo.tres" id="4_mateo"]
+[ext_resource type="Resource" path="res://src/data/orders/sofia.tres" id="5_sofia"]
+[ext_resource type="Resource" path="res://src/data/orders/samuel.tres" id="6_samuel"]
+[ext_resource type="Resource" path="res://src/data/orders/isabella.tres" id="7_isabella"]
+[ext_resource type="Resource" path="res://src/data/orders/tomas.tres" id="8_tomas"]
+[ext_resource type="Resource" path="res://src/data/orders/lucia.tres" id="9_lucia"]
+[ext_resource type="Resource" path="res://src/data/orders/daniel.tres" id="10_daniel"]
+[ext_resource type="Resource" path="res://src/data/orders/juan.tres" id="11_juan"]
+
+[resource]
+script = ExtResource("1_db")
+orders = Array[ExtResource("2_order")]([ExtResource("3_valentina"), ExtResource("4_mateo"), ExtResource("5_sofia"), ExtResource("6_samuel"), ExtResource("7_isabella"), ExtResource("8_tomas"), ExtResource("9_lucia"), ExtResource("10_daniel"), ExtResource("11_juan")])
