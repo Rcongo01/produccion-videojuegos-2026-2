@@ -5,6 +5,12 @@
 [ext_resource type="PackedScene" path="res://src/scenes/plate_process/plate_game/food_tray.tscn" id="3_tray"]
 [ext_resource type="PackedScene" path="res://src/scenes/plate_process/plate_game/plate_sector.tscn" id="4_sector"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="5_nav"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/back.png" id="ic_back"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/check.png" id="ic_check"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/hand_pointer.png" id="tx_hand"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/help.png" id="ic_help"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/close.png" id="ic_close"]
 
 [sub_resource type="StyleBoxFlat" id="Style_info"]
 bg_color = Color(0.08, 0.17, 0.14, 0.92)
@@ -79,6 +85,7 @@ one_shot = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" type="HBoxContainer" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 offset_left = 16.0
 offset_top = 14.0
 offset_right = 860.0
@@ -87,6 +94,8 @@ mouse_filter = 2
 theme_override_constants/separation = 24
 
 [node name="BtnBack" parent="CanvasLayer/HUD" instance=ExtResource("5_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
 custom_minimum_size = Vector2(110, 48)
 layout_mode = 2
 text = "Salir"
@@ -100,13 +109,25 @@ theme_override_font_sizes/font_size = 22
 text = "Alimentos: 0 / 12"
 vertical_alignment = 1
 
-[node name="LblTime" type="Label" parent="CanvasLayer/HUD"]
+[node name="BtnHelp" type="Button" parent="CanvasLayer/HUD"]
+custom_minimum_size = Vector2(52, 48)
 layout_mode = 2
+tooltip_text = "¿Cómo se juega?"
+focus_mode = 0
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_help")
+icon_alignment = 1
+
+[node name="LblTime" type="Label" parent="CanvasLayer/HUD"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+pivot_offset = Vector2(70, 24)
 theme_override_font_sizes/font_size = 22
 text = "Tiempo: 150"
 vertical_alignment = 1
 
 [node name="InfoPanel" type="PanelContainer" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
@@ -166,6 +187,7 @@ text = "..."
 autowrap_mode = 3
 
 [node name="ResultPanel" type="PanelContainer" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -218,14 +240,151 @@ layout_mode = 2
 theme_override_constants/separation = 14
 
 [node name="BtnSummary" parent="CanvasLayer/ResultPanel/VBox/HBoxButtons" instance=ExtResource("5_nav")]
+icon = ExtResource("ic_check")
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Ver mi plato"
 target_scene = "res://src/scenes/plate_process/plate_summary.tscn"
 
 [node name="BtnMenu" parent="CanvasLayer/ResultPanel/VBox/HBoxButtons" instance=ExtResource("5_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Menú"
 target_scene = "res://src/scenes/main/menu_panel.tscn"
 discard_previous = true
+
+[node name="FloatLayer" type="Node2D" parent="."]
+z_index = 40
+
+[node name="TutorialHand" type="Sprite2D" parent="."]
+visible = false
+z_index = 60
+texture = ExtResource("tx_hand")
+offset = Vector2(-10, 40)
+
+[node name="Confetti" type="CPUParticles2D" parent="."]
+position = Vector2(470, -20)
+z_index = 70
+emitting = false
+amount = 160
+lifetime = 2.6
+one_shot = true
+explosiveness = 0.85
+emission_shape = 3
+emission_rect_extents = Vector2(460, 10)
+direction = Vector2(0, 1)
+spread = 30.0
+gravity = Vector2(0, 260)
+initial_velocity_min = 120.0
+initial_velocity_max = 320.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+scale_amount_min = 6.0
+scale_amount_max = 11.0
+color = Color(1, 1, 1, 1)
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[node name="HintBar" type="PanelContainer" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -118.0
+offset_right = 276.0
+offset_bottom = -12.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="LblHint" type="Label" parent="CanvasLayer/HintBar"]
+autowrap_mode = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.93, 0.7, 1)
+theme_override_font_sizes/font_size = 17
+text = "Toca un alimento y arrástralo hasta su grupo del plato"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StreakBanner" type="Label" parent="CanvasLayer"]
+visible = false
+theme = ExtResource("th_ui")
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -460.0
+offset_top = 86.0
+offset_right = -20.0
+offset_bottom = 140.0
+grow_horizontal = 2
+pivot_offset = Vector2(220, 27)
+theme_override_colors/font_color = Color(1, 0.84, 0.25, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 40
+text = "¡Racha x3!"
+horizontal_alignment = 1
+
+[node name="HelpPopup" type="Panel" parent="CanvasLayer"]
+visible = false
+theme = ExtResource("th_ui")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PopupOverlay"
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/HelpPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="CanvasLayer/HelpPopup/Center"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+theme_type_variation = &"PopupCard"
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HelpPopup/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HBoxTop" type="HBoxContainer" parent="CanvasLayer/HelpPopup/Center/Card/VBox"]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="CanvasLayer/HelpPopup/Center/Card/VBox/HBoxTop"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"PopupTitle"
+theme_override_font_sizes/font_size = 32
+text = "¿Cómo se juega?"
+
+[node name="BtnClose" type="Button" parent="CanvasLayer/HelpPopup/Center/Card/VBox/HBoxTop"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+tooltip_text = "Cerrar"
+icon = ExtResource("ic_close")
+icon_alignment = 1
+
+[node name="LblSteps" type="Label" parent="CanvasLayer/HelpPopup/Center/Card/VBox"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_type_variation = &"PopupText"
+text = "1.  Toca un alimento de los que están alrededor del plato.
+2.  Sin soltarlo, arrástralo hasta el color de su grupo.
+3.  Si aciertas, el panel de la derecha te cuenta para qué sirve ese grupo.
+4.  Si te equivocas, el alimento vuelve a su lugar y recibes una pista.
+5.  Ubica los 12 alimentos antes de que se acabe el tiempo.
+
+Mientras esta ventana está abierta, el tiempo se detiene."
+autowrap_mode = 3
+
+[node name="BtnShowHand" type="Button" parent="CanvasLayer/HelpPopup/Center/Card/VBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Muéstrame con la mano"
+icon = ExtResource("ic_check")

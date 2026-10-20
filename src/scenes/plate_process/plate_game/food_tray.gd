@@ -12,13 +12,14 @@ func is_free() -> bool:
 	return current_food == null
 
 
-func spawn_food(food_id: String) -> void:
+func spawn_food(food_id: String) -> Node:
 	var food = food_scene.instantiate()
 	food.food_id = food_id
 	food.home_tray = self
 	add_child(food)
 	food.global_position = global_position
 	current_food = food
+	return food
 
 
 func release() -> void:

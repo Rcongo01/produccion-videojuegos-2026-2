@@ -9,6 +9,9 @@
 # combinación previous_state → current_state, es decir, responden a la TRANSICIÓN.
 extends CharacterBody2D
 
+# Lab 8: avisa cada transición para que el controlador muestre instrucciones progresivas
+signal state_changed(food: Node, from_state: int, to_state: int)
+
 enum FoodState {
 	APARECIENDO,
 	DISPONIBLE,
@@ -35,8 +38,8 @@ var hovered_sector: Area2D = null
 
 
 func _ready() -> void:
-	mouse_entered.connect(func() -> void: mouse_over = true)
-	mouse_exited.connect(func() -> void: mouse_over = false)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 	timer.timeout.connect(_on_timer_timeout)
 	sprite.texture = load(GlobalManager.food_texture_path(food_id))
 	lbl_name.text = GlobalManager.foods[food_id]["name"]
@@ -69,6 +72,8 @@ func change_state(next_state: FoodState) -> bool:
 	previous_state = current_state
 	current_state = next_state
 	play_transition_animation(previous_state, current_state)
+	_play_transition_sound(previous_state, current_state)
+	state_changed.emit(self, previous_state, current_state)
 	if current_state == FoodState.RECHAZADO:
 		timer.start(reject_duration)
 	return true
@@ -157,6 +162,8 @@ func _clear_hover() -> void:
 
 func lock() -> void:
 	# Usado por el controlador al terminar la partida: bloquea interacciones
+	if mouse_over:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	input_pickable = false
 	set_physics_process(false)
 	_clear_hover()
@@ -242,3 +249,40 @@ func animate_rejected() -> void:
 		tween.tween_property(sprite, "rotation", 0.3, 0.06)
 		tween.tween_property(sprite, "rotation", -0.3, 0.06)
 	tween.tween_property(sprite, "rotation", 0.0, 0.05)
+
+
+# --- Lab 8: convenciones de interfaz y retroalimentación -------------------------------
+
+# El cursor cambia a "mano" sobre un alimento que se puede tomar (convención de arrastre)
+func _on_mouse_entered() -> void:
+	mouse_over = true
+	if current_state == FoodState.DISPONIBLE:
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+
+func _on_mouse_exited() -> void:
+	mouse_over = false
+	if current_state != FoodState.ARRASTRANDO:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+
+func _play_transition_sound(from_state: FoodState, to_state: FoodState) -> void:
+	match [from_state, to_state]:
+		[FoodState.DISPONIBLE, FoodState.ARRASTRANDO]:
+			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+			EventBus.sound_requested.emit("pick")
+		[FoodState.ARRASTRANDO, FoodState.DISPONIBLE]:
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+			EventBus.sound_requested.emit("drop")
+		[FoodState.ARRASTRANDO, FoodState.UBICADO], [FoodState.ARRASTRANDO, FoodState.RECHAZADO]:
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+
+# Pulso suave para llamar la atención cuando el niño lleva un rato sin jugar
+func nudge() -> void:
+	if current_state != FoodState.DISPONIBLE:
+		return
+	var tween := create_tween()
+	for i in 2:
+		tween.tween_property(sprite, "scale", Vector2.ONE * tray_scale * 1.25, 0.15)
+		tween.tween_property(sprite, "scale", Vector2.ONE * tray_scale, 0.15)
