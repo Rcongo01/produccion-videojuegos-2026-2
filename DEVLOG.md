@@ -123,3 +123,32 @@
 ### Estado Final
 
 El Vertical Slice fue integrado, refinado y exportado para Web; queda listo para publicarse en itch.io.
+
+## [2026-10-16] - Laboratorio 8: Evaluación y Mejora de UX
+
+### Actividades Realizadas
+
+* Se escribió el test de usuario y el protocolo de observación (`doc/ux/prueba_de_usuario.md`) y se registraron los hallazgos de la versión del Lab 7.
+* Se analizaron las interacciones del plato interactivo (tomar, arrastrar, soltar bien, soltar mal, ayuda, terminar) con el formato Situación / Mejora / Resultado (`doc/ux/analisis_interacciones.md`).
+* Se aplicaron convenciones visuales e iconografía: 16 íconos propios (X, flecha, engranaje, play, papelera, ✓, ?, i, estrella, libro, plato…) integrados en los botones (`doc/ux/iconografia.md`).
+* Se creó `src/assets/ui/ui_theme.tres` con estados Normal / Hover / Pressed / Disabled y variaciones (`SecondaryButton`, `PopupCard`, `PopupOverlay`, `PopupTitle`, `PopupText`), asignado en la raíz de todas las escenas de interfaz.
+* Se refinó la jerarquía visual: acción principal amarilla, acciones secundarias verdes, título sobre banda de contraste.
+* Se decoró el menú principal: fondo ilustrado (mantel con alimentos) y la mascota Nutri, que se anima y da consejos de las Guías Alimentarias.
+* Se agregó `PlateSuccessPopup` al resumen del plato: aparece al confirmar, conserva la lógica de consumir la estrella y vuelve al menú con *Continuar*.
+* Retos: instrucciones progresivas según el estado del alimento, mano guía la primera vez, ayuda que pausa el tiempo, aviso de poco tiempo, invitación tras inactividad, popup refinado.
+* Más entretenido: sonidos (`AudioManager`), racha de aciertos, "+10" flotante, confeti y cursores.
+
+### Desafíos y Soluciones
+
+* **Desafío:** El fondo del menú no se veía.
+* **Solución:** Con `z_index = -1` quedaba debajo del fondo de `MainApp`; los fondos de `MainApp` se bajaron a `z_index = -10`.
+* **Desafío:** Los íconos oscuros desaparecían en los botones secundarios oscuros.
+* **Solución:** Íconos blancos y colores de ícono por estado definidos en el Theme.
+* **Desafío:** La barra de instrucciones tapaba los alimentos de la fila inferior.
+* **Solución:** Se movió a la esquina inferior izquierda, donde no hay bandejas.
+* **Desafío:** Mientras la ayuda estaba abierta, el tiempo seguía corriendo.
+* **Solución:** `timer_gameover.paused = true` al abrirla y `false` al cerrarla.
+
+### Estado Final
+
+Se realizó una evaluación de la experiencia de usuario y se aplicaron mejoras visuales y de comunicación sobre el proyecto.
