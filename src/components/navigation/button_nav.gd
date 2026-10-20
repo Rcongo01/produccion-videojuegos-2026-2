@@ -12,4 +12,5 @@ func _ready() -> void:
 
 
 func _on_pressed() -> void:
+	EventBus.sound_requested.emit("click")  # Lab 8: confirmación sonora de la acción
 	EventBus.navigation_requested.emit(target_scene, discard_previous)
