@@ -150,6 +150,34 @@ var bonuses: Array[Dictionary] = []
 # Lab 8: sonido y tutorial (la mano guía se muestra hasta que el niño ubica su primer alimento)
 var settings: Dictionary = {"show_hints": true, "sound_enabled": true, "tutorial_done": false}
 
+# --- Lab 9: catálogo de alimentos de la lonchera (Resources) -----------------------------
+# El GlobalManager no copia los alimentos: da acceso global al catálogo ingredient_database.tres
+var ingredient_database: IngredientDatabase = preload("res://src/data/ingredient_database.tres")
+var ingredients: Array[IngredientData]:
+	get:
+		return ingredient_database.ingredients
+
+# Lab 9 (mejora "Lonchera Express"): pedidos de los niños, también como Resources
+var order_database: OrderDatabase = preload("res://src/data/order_database.tres")
+
+# Compartimentos de la lonchera (la guía usa dos mitades: "left" / "right")
+const LUNCHBOX_SLOTS: Array[String] = ["bebida", "fruta", "principal", "snack"]
+const LUNCH_ORDERS_PER_ROUND := 4
+const SEAL_NAMES := {"azucares": "EXCESO EN AZÚCARES", "sodio": "EXCESO EN SODIO", "grasas": "EXCESO EN GRASAS SATURADAS"}
+
+# Estado TEMPORAL de la lonchera (equivalente a pizza_selection / pizza_total de la guía)
+var lunchbox_selection: Dictionary = {
+	"bebida": "",
+	"fruta": "",
+	"principal": "",
+	"snack": ""
+}
+var lunchbox_total: int = 0
+# Ronda de pedidos en curso (temporal): pedidos, índice, tiempo restante y resultados
+var lunch_round: Dictionary = {"orders": [], "index": 0, "time_left": 0.0, "results": [], "total": 0}
+# Persistente: mejor puntaje de una ronda de Lonchera Express
+var lunch_best: int = 0
+
 # --- Lab 7: persistencia ----------------------------------------------------------------
 # Estado TEMPORAL: la ronda en curso (selection, round_deck, current_score). Se pierde al cerrar.
 # Estado PERSISTENTE: progreso del jugador. Se guarda en user:// (en Web, IndexedDB).
@@ -165,6 +193,8 @@ func _ready() -> void:
 	EventBus.bonus_obtained.connect(_on_bonus_obtained)
 	EventBus.hints_toggled.connect(_on_hints_toggled)
 	EventBus.progress_reset_requested.connect(reset_progress)
+	# Lab 9
+	EventBus.ingredient_selected.connect(_on_ingredient_selected)
 	EventBus.sound_toggled.connect(func(enabled: bool) -> void:
 		settings["sound_enabled"] = enabled
 		save_progress()
@@ -256,6 +286,159 @@ func food_texture_path(food_id: String) -> String:
 	return "res://src/assets/foods/%s.png" % food_id
 
 
+# --- Lab 9: lonchera ----------------------------------------------------------------------
+# slot: índice del compartimento (0 bebida, 1 fruta, 2 principal, 3 snack)
+func _on_ingredient_selected(ingredient_id: String, slot: int) -> void:
+	if slot < 0 or slot >= LUNCHBOX_SLOTS.size():
+		return
+	lunchbox_selection[LUNCHBOX_SLOTS[slot]] = ingredient_id
+	_update_lunchbox_total()
+
+
+func _update_lunchbox_total() -> void:
+	lunchbox_total = 0
+	for ingredient_id in lunchbox_selection.values():
+		var ingredient := get_ingredient(ingredient_id)
+		if ingredient != null:
+			lunchbox_total += ingredient.price
+	EventBus.lunchbox_total_changed.emit(lunchbox_total)
+
+
+# Consulta de solo lectura: busca un alimento del catálogo por su id
+func get_ingredient(ingredient_id: String) -> IngredientData:
+	for ingredient in ingredients:
+		if ingredient.id == ingredient_id:
+			return ingredient
+	return null
+
+
+func ingredients_of_kind(kind: String) -> Array[IngredientData]:
+	var out: Array[IngredientData] = []
+	for ingredient in ingredients:
+		if ingredient.kind == kind:
+			out.append(ingredient)
+	return out
+
+
+func lunchbox_items() -> Array[IngredientData]:
+	var out: Array[IngredientData] = []
+	for slot in LUNCHBOX_SLOTS:
+		var ingredient := get_ingredient(lunchbox_selection[slot])
+		if ingredient != null:
+			out.append(ingredient)
+	return out
+
+
+func is_lunchbox_complete() -> bool:
+	for slot in LUNCHBOX_SLOTS:
+		if lunchbox_selection[slot] == "":
+			return false
+	return true
+
+
+func seal_texture(seal_id: String) -> Texture2D:
+	return load("res://src/assets/ui/seals/%s.png" % seal_id)
+
+
+func reset_lunchbox() -> void:
+	for slot in LUNCHBOX_SLOTS:
+		lunchbox_selection[slot] = ""
+	_update_lunchbox_total()
+
+
+# --- Lonchera Express: ronda de pedidos ---------------------------------------------------
+func start_lunch_round() -> void:
+	var pool: Array = order_database.orders.duplicate()
+	pool.shuffle()
+	lunch_round = {"orders": pool.slice(0, LUNCH_ORDERS_PER_ROUND), "index": 0, "time_left": 0.0, "results": [], "total": 0}
+	reset_lunchbox()
+	lunch_round["time_left"] = float(current_order().time_limit)
+
+
+func is_lunch_round_active() -> bool:
+	return not lunch_round["orders"].is_empty() and lunch_round["index"] < lunch_round["orders"].size()
+
+
+func current_order() -> OrderData:
+	if not is_lunch_round_active():
+		return null
+	return lunch_round["orders"][lunch_round["index"]]
+
+
+# Regla del pedido (consulta pura sobre la lonchera actual)
+func order_fulfilled(order: OrderData) -> bool:
+	var items := lunchbox_items()
+	match order.rule:
+		"contiene":
+			return items.any(func(i: IngredientData) -> bool: return i.id in order.rule_values)
+		"sin_sellos":
+			return not items.is_empty() and items.all(func(i: IngredientData) -> bool: return i.seals.is_empty())
+		"sin_azucar":
+			return not items.is_empty() and items.all(func(i: IngredientData) -> bool: return i.group_id != "azucares" and not ("azucares" in i.seals))
+		"min_puntos":
+			return lunchbox_total >= order.rule_number
+		"solo_saludable":
+			return is_lunchbox_complete() and items.all(func(i: IngredientData) -> bool: return i.healthy)
+	return false
+
+
+# Califica la lonchera del pedido actual: puntos, estrellas (1 a 3) y mensajes de Nutri
+func evaluate_lunchbox(time_left: float = 0.0) -> Dictionary:
+	var order := current_order()
+	var items := lunchbox_items()
+	var met := order != null and order_fulfilled(order)
+	var unhealthy: Array = items.filter(func(i: IngredientData) -> bool: return not i.healthy)
+	var complete := is_lunchbox_complete()
+	var stars := 1
+	if met:
+		stars += 1
+	if complete and unhealthy.is_empty():
+		stars += 1
+	var lines: Array[String] = []
+	if order != null:
+		lines.append(order.success_text if met else order.fail_text)
+	for item in unhealthy:
+		lines.append("- %s: %s" % [item.display_name, item.tip])
+	if not complete:
+		lines.append("Faltó llenar compartimentos de la lonchera.")
+	if met and complete and unhealthy.is_empty():
+		lines.append("¡Lonchera balanceada y sin ultraprocesados!")
+	# La rapidez solo premia una lonchera completa que cumple el pedido
+	var time_bonus := int(ceil(time_left)) if complete and met else 0
+	var points := lunchbox_total + (order.bonus_points if met else 0) + time_bonus
+	return {"points": points, "stars": stars, "met": met, "time_bonus": time_bonus,
+		"unhealthy": unhealthy.size(), "lines": lines, "kid": order.kid_name if order else ""}
+
+
+# Entrega la lonchera: guarda el resultado, vacía la lonchera y pasa al siguiente pedido
+func deliver_lunchbox(time_left: float) -> Dictionary:
+	var result := evaluate_lunchbox(time_left)
+	result["order"] = current_order()
+	lunch_round["results"].append(result)
+	lunch_round["total"] += result["points"]
+	lunch_round["index"] += 1
+	reset_lunchbox()
+	if is_lunch_round_active():
+		lunch_round["time_left"] = float(current_order().time_limit)
+	return result
+
+
+func lunch_round_stars() -> int:
+	var total := 0
+	for result in lunch_round["results"]:
+		total += result["stars"]
+	return total
+
+
+# Al confirmar la ronda: guarda el récord si se superó
+func register_lunch_score(final_points: int) -> bool:
+	if final_points > lunch_best:
+		lunch_best = final_points
+		save_progress()
+		return true
+	return false
+
+
 func group_message(group_id: String) -> String:
 	return GABA_MESSAGES[groups[group_id]["message"]]
 
@@ -309,6 +492,7 @@ func save_progress() -> void:
 		"version": 1,
 		"bonuses": bonuses,
 		"best_score": best_score,
+		"lunch_best": lunch_best,
 		"groups_learned": groups_learned,
 		"settings": settings,
 	}
@@ -337,6 +521,7 @@ func load_progress() -> void:
 		if bonus is Dictionary and bonus.has("value") and bonus.has("minimum_score"):
 			bonuses.append({"value": int(bonus["value"]), "minimum_score": int(bonus["minimum_score"])})
 	best_score = int(data.get("best_score", 0))
+	lunch_best = int(data.get("lunch_best", 0))
 	groups_learned.assign(data.get("groups_learned", []).filter(func(g) -> bool: return groups.has(g)))
 	var loaded_settings = data.get("settings", {})
 	if loaded_settings is Dictionary:
@@ -348,6 +533,7 @@ func load_progress() -> void:
 func reset_progress() -> void:
 	bonuses.clear()
 	best_score = 0
+	lunch_best = 0
 	groups_learned.clear()
 	settings["tutorial_done"] = false  # Lab 8: un nuevo jugador vuelve a ver la mano guía
 	save_progress()
