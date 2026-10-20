@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/main/menu_panel.gd" id="1_menu"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://src/assets/ui/icons/gear.png" id="9_gear"]
 [ext_resource type="Texture2D" path="res://src/assets/ui/icons/info.png" id="10_info"]
 [ext_resource type="Texture2D" path="res://src/assets/ui/icons/close.png" id="11_close"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/lunchbox.png" id="12_lunch"]
 
 [sub_resource type="StyleBoxFlat" id="Bubble"]
 content_margin_left = 18.0
@@ -147,10 +148,17 @@ text = "Armar mi plato"
 icon = ExtResource("6_plate")
 target_scene = "res://src/scenes/plate_process/plate_game/plate_game_main.tscn"
 
+[node name="BtnLunchbox" parent="HBox/VBoxMenu" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Lonchera Express"
+icon = ExtResource("12_lunch")
+target_scene = "res://src/scenes/plate_process/lunchbox_interactive.tscn"
+
 [node name="BtnBonusEvent" parent="HBox/VBoxMenu" instance=ExtResource("2_nav")]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Ganar estrellas"
+text = "Ganar estrellas: atrapa lo saludable"
 icon = ExtResource("7_star")
 target_scene = "res://src/scenes/plate_process/bonus_event.tscn"
 
@@ -203,5 +211,5 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.92, 0.97, 0.94, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 17
-text = "Récord: 0 · Estrellas: 0 · Grupos descubiertos: 0 / 6"
+text = "Récord: 0 · Lonchera: 0 · Estrellas: 0 · Grupos: 0 / 6"
 horizontal_alignment = 1
