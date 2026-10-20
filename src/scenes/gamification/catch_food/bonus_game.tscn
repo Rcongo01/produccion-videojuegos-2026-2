@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="8_nav"]
 [ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/arrow_left.png" id="9_left"]
 [ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/arrow_right.png" id="10_right"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/back.png" id="ic_back"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/check.png" id="ic_check"]
 
 [sub_resource type="RectangleShape2D" id="Rect_player"]
 size = Vector2(96, 56)
@@ -140,6 +143,7 @@ impulse_max_x = -60
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Objective" type="Label" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -153,6 +157,9 @@ text = "Frutas y verduras: 0 / 8"
 horizontal_alignment = 1
 
 [node name="BtnBack" parent="CanvasLayer" instance=ExtResource("8_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
+theme = ExtResource("th_ui")
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 136.0
@@ -162,6 +169,7 @@ target_scene = "res://src/scenes/plate_process/bonus_event.tscn"
 discard_previous = true
 
 [node name="TouchLeft" type="Button" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -176,6 +184,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="TouchRight" type="Button" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -193,6 +202,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="ResultPanel" type="PanelContainer" parent="CanvasLayer"]
+theme = ExtResource("th_ui")
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -220,6 +230,7 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="BtnContinue" parent="CanvasLayer/ResultPanel/VBox" instance=ExtResource("8_nav")]
+icon = ExtResource("ic_check")
 layout_mode = 2
 text = "Continuar"
 target_scene = "res://src/scenes/plate_process/bonus_event.tscn"

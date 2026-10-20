@@ -27,6 +27,7 @@ config/icon="res://src/assets/ui/logo_plato.png"
 
 EventBus="*res://src/core/event_bus.gd"
 GlobalManager="*res://src/core/global_manager.gd"
+AudioManager="*res://src/core/audio_manager.gd"
 
 [display]
 
@@ -37,7 +38,7 @@ window/stretch/aspect="expand"
 
 [gui]
 
-theme/custom="res://src/core/theme/plato_theme.tres"
+theme/custom="res://src/assets/ui/ui_theme.tres"
 
 [input]
 

@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" path="res://src/scenes/album/album_panel.gd" id="1_album"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/back.png" id="ic_back"]
 
 [node name="AlbumPanel" type="Control"]
+theme = ExtResource("th_ui")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,6 +53,8 @@ theme_override_constants/v_separation = 16
 columns = 3
 
 [node name="BtnBack" parent="VBox" instance=ExtResource("2_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
 custom_minimum_size = Vector2(260, 52)
 layout_mode = 2
 size_flags_horizontal = 4

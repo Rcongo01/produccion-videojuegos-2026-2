@@ -147,7 +147,8 @@ var current_score: int = 0
 var bonuses: Array[Dictionary] = []
 
 # Preferencias que sobreviven al cambio de pantalla
-var settings: Dictionary = {"show_hints": true}
+# Lab 8: sonido y tutorial (la mano guía se muestra hasta que el niño ubica su primer alimento)
+var settings: Dictionary = {"show_hints": true, "sound_enabled": true, "tutorial_done": false}
 
 # --- Lab 7: persistencia ----------------------------------------------------------------
 # Estado TEMPORAL: la ronda en curso (selection, round_deck, current_score). Se pierde al cerrar.
@@ -164,6 +165,15 @@ func _ready() -> void:
 	EventBus.bonus_obtained.connect(_on_bonus_obtained)
 	EventBus.hints_toggled.connect(_on_hints_toggled)
 	EventBus.progress_reset_requested.connect(reset_progress)
+	EventBus.sound_toggled.connect(func(enabled: bool) -> void:
+		settings["sound_enabled"] = enabled
+		save_progress()
+	)
+	EventBus.tutorial_completed.connect(func() -> void:
+		if not settings["tutorial_done"]:
+			settings["tutorial_done"] = true
+			save_progress()
+	)
 	# Lab 7: recuperar el progreso guardado al iniciar
 	load_progress()
 	reset_round()
@@ -331,10 +341,13 @@ func load_progress() -> void:
 	var loaded_settings = data.get("settings", {})
 	if loaded_settings is Dictionary:
 		settings["show_hints"] = bool(loaded_settings.get("show_hints", true))
+		settings["sound_enabled"] = bool(loaded_settings.get("sound_enabled", true))
+		settings["tutorial_done"] = bool(loaded_settings.get("tutorial_done", false))
 
 
 func reset_progress() -> void:
 	bonuses.clear()
 	best_score = 0
 	groups_learned.clear()
+	settings["tutorial_done"] = false  # Lab 8: un nuevo jugador vuelve a ver la mano guía
 	save_progress()

@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/toggle_on.png" id="ic_ton"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/toggle_off.png" id="ic_toff"]
 [ext_resource type="Script" path="res://src/scenes/config/config_panel.gd" id="1_cfg"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/trash.png" id="ic_trash"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/back.png" id="ic_back"]
 
 [node name="ConfigPanel" type="Control"]
+theme = ExtResource("th_ui")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,9 +27,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -320.0
-offset_top = -200.0
+offset_top = -230.0
 offset_right = 320.0
-offset_bottom = 200.0
+offset_bottom = 230.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -39,12 +45,23 @@ text = "Configuración"
 horizontal_alignment = 1
 
 [node name="ChkPistas" type="CheckButton" parent="Card/VBox"]
+theme_override_icons/checked = ExtResource("ic_ton")
+theme_override_icons/unchecked = ExtResource("ic_toff")
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 button_pressed = true
 text = "Mostrar pistas al equivocarme"
 
+[node name="ChkSonido" type="CheckButton" parent="Card/VBox"]
+theme_override_icons/checked = ExtResource("ic_ton")
+theme_override_icons/unchecked = ExtResource("ic_toff")
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+button_pressed = true
+text = "Sonidos del juego"
+
 [node name="BtnReset" type="Button" parent="Card/VBox"]
+icon = ExtResource("ic_trash")
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
@@ -59,6 +76,8 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="BtnBack" parent="Card/VBox" instance=ExtResource("2_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "Volver al menú"

@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" path="res://src/core/main_app.gd" id="1_main"]
 [ext_resource type="Texture2D" path="res://src/assets/ui/background.png" id="2_bg"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
 
 [node name="MainApp" type="Node"]
 script = ExtResource("1_main")
 
 [node name="Fondo" type="ColorRect" parent="."]
+z_index = -10
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,6 +18,7 @@ mouse_filter = 2
 color = Color(0.12, 0.26, 0.21, 1)
 
 [node name="FondoImagen" type="TextureRect" parent="."]
+z_index = -10
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,6 +30,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="SceneContainer" type="Control" parent="."]
+theme = ExtResource("th_ui")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

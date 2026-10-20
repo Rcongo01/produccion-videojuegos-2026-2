@@ -13,6 +13,11 @@ signal food_placed(food_id: String, group_id: String)
 signal hints_toggled(enabled: bool)
 signal progress_reset_requested()
 
+# Lab 8: retroalimentación (sonido y preferencias de la experiencia de usuario)
+signal sound_requested(sound_name: String)
+signal sound_toggled(enabled: bool)
+signal tutorial_completed()
+
 # Resultados del GlobalManager -> interfaz
 signal food_changed(food_id: String)
 signal placement_evaluated(food_id: String, group_id: String, correct: bool)

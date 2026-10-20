@@ -1,8 +1,11 @@
 [gd_scene load_steps=2 format=3]
 
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/back.png" id="ic_back"]
 
 [node name="CreditsPanel" type="Control"]
+theme = ExtResource("th_ui")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,11 +41,14 @@ Producción de Videojuegos · 2026-II · Godot Engine 4.7
 
 Contenido: Guías Alimentarias Basadas en Alimentos para la población colombiana mayor de 2 años (ICBF - FAO) y su Plato saludable de la Familia Colombiana.
 
-Íconos: Noto Color Emoji (SIL OFL 1.1) · Tipografía: Fredoka (SIL OFL 1.1)"
+Alimentos: Noto Color Emoji (SIL OFL 1.1) · Tipografía: Fredoka (SIL OFL 1.1)
+Íconos de interfaz, mascota Nutri, fondos y sonidos: creados para este proyecto"
 horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="BtnBack" parent="Card/VBox" instance=ExtResource("2_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "Volver al menú"
