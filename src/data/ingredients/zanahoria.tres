@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="IngredientData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/ingredient_data.gd" id="1_data"]
+[ext_resource type="Texture2D" path="res://src/scenes/plate_process/assets/lunchbox/zanahoria.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://src/assets/foods/zanahoria.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_data")
+id = "zanahoria"
+display_name = "Palitos de zanahoria"
+texture = ExtResource("2_tex")
+price = 40
+kind = "fruta"
+healthy = true
+seals = PackedStringArray()
+icon = ExtResource("3_icon")
+group_id = "frutas_verduras"
+tip = "Las verduras también van en la lonchera: la zanahoria cuida tus ojos."
