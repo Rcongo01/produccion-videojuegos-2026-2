@@ -16,5 +16,9 @@
 | *Ganar estrellas* | Recompensa | **Estrella** | Ícono + texto | Qué se gana | No |
 | *Mis grupos del plato* | Colección / álbum | **Libro** | Ícono + texto | Qué contiene | No |
 | *Sonidos del juego* | Activar / silenciar | **Parlante / interruptor** | Interruptor verde (encendido) y gris (apagado) | Qué se activa | No |
+| *Lonchera Express* (Lab 9) | Ir a la lonchera | **Lonchera** | Ícono + texto | Qué se arma | No |
+| Alimentos de la lista (Lab 9) | Elegir un alimento | **Imagen del alimento** (`IngredientData.icon`) | Ícono a color a la izquierda, sin teñir | Nombre y puntos saludables | No: el niño compara puntos |
+| Sellos de advertencia (Lab 9) | Avisar exceso de azúcar o grasa | **Octágono negro** (convención de los empaques en Colombia) | A la derecha del botón y en el compartimento | — | Sí: es el mismo símbolo del empaque real |
+| Estrellas del pedido (Lab 9) | Calificar la lonchera | **1 a 3 estrellas** | Se encienden una a una en el resultado | Lo que estuvo bien o mal | Sí |
 
 **Criterio general:** el público son niños de primaria que todavía están aprendiendo a leer y a reconocer convenciones. Por eso casi todos los botones conservan **ícono + texto**; solo la **X** de una ventana y el **?** de ayuda funcionan sin texto.

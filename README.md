@@ -9,7 +9,7 @@
 **Universidad Antonio Nariño (UAN)**<br>
 Facultad de Ingeniería de Sistemas y Computación
 
-![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%208%20de%209-f2c14e) ![Web](https://img.shields.io/badge/Exportaci%C3%B3n-Web%20HTML5-e44d26?logo=html5&logoColor=white)
+![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white) ![GDScript](https://img.shields.io/badge/GDScript-2.0%20tipado-355570) ![Renderer](https://img.shields.io/badge/Renderer-Compatibility-2e7d32) ![Avance](https://img.shields.io/badge/Avance-Gu%C3%ADa%209%20de%209-f2c14e) ![Web](https://img.shields.io/badge/Exportaci%C3%B3n-Web%20HTML5-e44d26?logo=html5&logoColor=white)
 
 </div>
 
@@ -23,15 +23,15 @@ El plato aparece en el centro con sus **6 grupos de alimentos** y los alimentos 
 
 Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece guía tras guía siguiendo buenas prácticas de ingeniería de software.
 
-![Mi Plato Saludable](doc/img/plato_guia.jpg)
+![Mi Plato Saludable](doc/img/lonchera.jpg)
 
 ## 🎮 Cómo se juega
 
-- **Armar mi plato**: **arrastra** cada alimento hasta su división del plato. La primera vez, una **mano guía** te muestra cómo.
-- Acierto: **+10**, sonido y racha (x3, x5…). Error: *¡Ups!*, el alimento vuelve a su puesto y recibes una pista.
-- ¿Dudas? Toca **?**: la ayuda explica las reglas y detiene el tiempo. Completa los 12 alimentos en 150 segundos.
-- **Ganar estrellas**: minijuego de la canasta (A / D, flechas o botones en pantalla).
-- **Mis grupos del plato**: álbum de los grupos descubiertos. **Ajustes**: pistas y sonidos. Tu progreso se guarda solo.
+- **Armar mi plato**: **arrastra** cada alimento hasta su división del plato. La primera vez, una **mano guía** te muestra cómo. Toca **?** para la ayuda.
+- **Lonchera Express**: llegan 4 niños con un pedido y poco tiempo. Toca un compartimento (bebida, fruta, plato principal o snack) y elige un alimento de la lista. ¡Ojo con los ultraprocesados y sus sellos negros!
+- Cada lonchera gana de 1 a 3 estrellas: por entregarla, por cumplir el pedido y por ser completa y sin ultraprocesados. Entregar rápido da puntos extra.
+- **Ganar estrellas: Atrapa lo saludable**: atrapa frutas y verduras y esquiva gaseosas y ultraprocesados (3 vidas). Las estrellas suman puntos al plato o a la lonchera.
+- **Mis grupos del plato**: álbum de los grupos descubiertos. **Ajustes**: pistas y sonidos. Tu progreso y tus récords se guardan solos.
 
 ## 🥗 Los 6 grupos del plato
 
@@ -56,7 +56,7 @@ Este repositorio es el proyecto integrador del semestre 2026-2: el juego crece g
 | 6 | Máquinas de estado y Tweens | El plato interactivo: arrastrar cada alimento a su grupo. | ✅ |
 | 7 | Vertical Slice, persistencia y Web | Progreso guardado, diseño final, álbum de grupos y versión Web. | ✅ |
 | 8 | Evaluación y mejora de UX | Prueba de uso, Theme con estados, íconos, menú con la mascota Nutri, ayuda, mano guía, sonidos y popup de confirmación. | ✅ |
-| 9 | Interfaz dinámica con Resources | *Arma tu lonchera saludable*: alimentos como `Resource`, botones generados por código y lonchera de dos compartimentos. | ⏳ |
+| 9 | Interfaz dinámica con Resources | *Lonchera Express*: alimentos y pedidos como `Resource`, lista generada por código, lonchera de 4 compartimentos y minijuego *Atrapa lo saludable*. | ✅ |
 
 Cada guía se desarrolla en su propia rama `lab-N`, se fusiona en `main` y se marca con la etiqueta `lab-N-final`.
 
@@ -77,6 +77,9 @@ Cada guía se desarrolla en su propia rama `lab-N`, se fusiona en `main` y se ma
 - **`ui_theme.tres`** reemplaza al tema anterior: estados Normal / Hover / Pressed / Disabled y variaciones `SecondaryButton` y `Popup*`.
 - **`AudioManager`** (Autoload): reproduce los sonidos que se piden por el `EventBus`; se puede apagar en Ajustes.
 - Cada alimento emite `state_changed`; el controlador de la partida muestra **instrucciones progresivas** según el estado.
+- **`IngredientData`** (`Resource`): cada alimento de la lonchera es un archivo `.tres` con nombre, textura, puntos, compartimento, sellos y consejo.
+- **`IngredientDatabase`** y **`OrderDatabase`**: catálogos de 31 alimentos y 9 pedidos; agregar uno nuevo es crear un `.tres`, sin tocar código.
+- La lista de botones y la lonchera se **generan desde los datos**; `EventBus.ingredient_selected` y `lunchbox_total_changed` comunican la elección.
 
 ## 📁 Estructura de Directorios del Repositorio
 
@@ -87,10 +90,14 @@ src/
 │   ├── fonts/
 │   ├── foods/
 │   └── ui/
-│       └── icons/
+│       ├── icons/
+│       └── seals/
 ├── components/
 │   └── navigation/
 ├── core/
+├── data/
+│   ├── ingredients/
+│   └── orders/
 └── scenes/
     ├── album/
     ├── config/
@@ -99,6 +106,7 @@ src/
     │   └── catch_food/
     ├── main/
     └── plate_process/
+        ├── assets/
         └── plate_game/
 doc/
 ├── adr/      Registros de decisiones de arquitectura (ADR)
@@ -138,7 +146,7 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 
 ## 🏷️ Versiones
 
-`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final` · `lab-4-final` · `lab-5-final` · `lab-6-final` · `lab-7-final` · `lab-8-final`
+`lab-1` · `lab-2` · `lab-2-final` · `lab-3-final` · `lab-4-final` · `lab-5-final` · `lab-6-final` · `lab-7-final` · `lab-8-final` · `lab-9-final`
 
 ## 📚 Documentación
 
@@ -150,8 +158,9 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 - [`doc/guias/guia_06_fsm_tweens.md`](doc/guias/guia_06_fsm_tweens.md): qué pide la Guía 6 y cómo se aplicó al juego.
 - [`doc/guias/guia_07_vertical_slice.md`](doc/guias/guia_07_vertical_slice.md): qué pide la Guía 7 y cómo se aplicó al juego.
 - [`doc/guias/guia_08_ux.md`](doc/guias/guia_08_ux.md): qué pide la Guía 8 y cómo se aplicó al juego.
+- [`doc/guias/guia_09_resources.md`](doc/guias/guia_09_resources.md): qué pide la Guía 9 y cómo se aplicó al juego.
 - [`doc/ux/`](doc/ux/): prueba de uso, análisis Situación / Mejora / Resultado e iconografía (Guía 8).
-- Decisiones de arquitectura: [ADR-001](doc/adr/ADR-001-colocalizacion.md), [ADR-002](doc/adr/ADR-002-event-bus-navegacion.md), [ADR-003](doc/adr/ADR-003-global-manager-button-nav.md), [ADR-004](doc/adr/ADR-004-gamificacion-recompensas.md), [ADR-005](doc/adr/ADR-005-fsm-animaciones.md), [ADR-006](doc/adr/ADR-006-theme-ux.md).
+- Decisiones de arquitectura: [ADR-001](doc/adr/ADR-001-colocalizacion.md), [ADR-002](doc/adr/ADR-002-event-bus-navegacion.md), [ADR-003](doc/adr/ADR-003-global-manager-button-nav.md), [ADR-004](doc/adr/ADR-004-gamificacion-recompensas.md), [ADR-005](doc/adr/ADR-005-fsm-animaciones.md), [ADR-006](doc/adr/ADR-006-theme-ux.md), [ADR-007](doc/adr/ADR-007-resources-interfaz-dinamica.md).
 
 ## 📜 Créditos y licencias
 
@@ -160,15 +169,16 @@ Para ver el proyecto tal como quedó al terminar una guía: `git checkout lab-N-
 - Tipografía: **Fredoka** (SIL Open Font License 1.1), licencia en `src/assets/fonts/OFL_Fredoka.txt`.
 - Fondo, logo, suelo y paredes: creados para este proyecto.
 - Íconos de interfaz, mascota Nutri, fondo del menú y efectos de sonido: creados para este proyecto.
+- Sellos de advertencia: dibujados para el proyecto a partir del etiquetado frontal de advertencia que se usa en Colombia.
 
 ## 🖼️ Galería
 
 | | |
 |:---:|:---:|
-| ![Menú con la mascota Nutri](doc/img/menu.jpg)<br>*Menú con la mascota Nutri* | ![Mano guía e instrucciones progresivas](doc/img/plato_guia.jpg)<br>*Mano guía e instrucciones progresivas* |
-| ![Acierto: +10 y racha](doc/img/plato.jpg)<br>*Acierto: +10 y racha* | ![Error con pista](doc/img/error.jpg)<br>*Error con pista* |
-| ![Ayuda: el tiempo se detiene](doc/img/ayuda.jpg)<br>*Ayuda: el tiempo se detiene* | ![Popup de confirmación](doc/img/popup_plato.jpg)<br>*Popup de confirmación* |
-| ![Mis grupos del plato](doc/img/album.jpg)<br>*Mis grupos del plato* | ![Ajustes con sonido](doc/img/ajustes.jpg)<br>*Ajustes con sonido* |
+| ![Menú con Lonchera Express](doc/img/menu.jpg)<br>*Menú con Lonchera Express* | ![Lonchera Express: pedido con tiempo y 4 compartimentos](doc/img/lonchera.jpg)<br>*Lonchera Express: pedido con tiempo y 4 compartimentos* |
+| ![Calificación del pedido (1 a 3 estrellas)](doc/img/lonchera_resultado.jpg)<br>*Calificación del pedido (1 a 3 estrellas)* | ![Resultados de la ronda](doc/img/lonchera_resumen.jpg)<br>*Resultados de la ronda* |
+| ![Atrapa lo saludable: esquiva los ultraprocesados](doc/img/minijuego.jpg)<br>*Atrapa lo saludable: esquiva los ultraprocesados* | ![¡Ronda terminada!](doc/img/popup_lonchera.jpg)<br>*¡Ronda terminada!* |
+| ![Plato: acierto con +10 y racha](doc/img/plato.jpg)<br>*Plato: acierto con +10 y racha* | ![Mano guía e instrucciones progresivas](doc/img/plato_guia.jpg)<br>*Mano guía e instrucciones progresivas* |
 
 ## 👨‍💻 Autor
 
