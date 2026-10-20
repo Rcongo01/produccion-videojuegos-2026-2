@@ -3,8 +3,12 @@
 [ext_resource type="Script" path="res://src/scenes/plate_process/bonus_event.gd" id="1_ev"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
 [ext_resource type="Texture2D" path="res://src/scenes/gamification/catch_food/assets/estrella.png" id="3_star"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/play.png" id="ic_play"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/back.png" id="ic_back"]
 
 [node name="BonusEvent" type="Control"]
+theme = ExtResource("th_ui")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,12 +65,15 @@ text = "Estrellas guardadas: 0"
 horizontal_alignment = 1
 
 [node name="BtnPlay" parent="Card/VBox" instance=ExtResource("2_nav")]
+icon = ExtResource("ic_play")
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Jugar ahora"
 target_scene = "res://src/scenes/gamification/catch_food/bonus_game.tscn"
 
 [node name="BtnBack" parent="Card/VBox" instance=ExtResource("2_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_back")
 layout_mode = 2
 text = "Volver al menú"
 target_scene = "res://src/scenes/main/menu_panel.tscn"

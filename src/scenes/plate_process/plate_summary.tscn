@@ -2,8 +2,13 @@
 
 [ext_resource type="Script" path="res://src/scenes/plate_process/plate_summary.gd" id="1_sum"]
 [ext_resource type="PackedScene" path="res://src/components/navigation/button_nav.tscn" id="2_nav"]
+[ext_resource type="Theme" path="res://src/assets/ui/ui_theme.tres" id="th_ui"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/check.png" id="ic_check"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/icons/play.png" id="ic_play"]
+[ext_resource type="Texture2D" path="res://src/assets/ui/success_check.png" id="tx_success"]
 
 [node name="PlateSummary" type="Control"]
+theme = ExtResource("th_ui")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,13 +60,81 @@ text = "TOTAL: 0 puntos"
 horizontal_alignment = 1
 
 [node name="BtnConfirm" type="Button" parent="Card/VBoxContainer"]
+icon = ExtResource("ic_check")
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Confirmar plato"
 
 [node name="BtnBack" parent="Card/VBoxContainer" instance=ExtResource("2_nav")]
+theme_type_variation = &"SecondaryButton"
+icon = ExtResource("ic_play")
 layout_mode = 2
 text = "Jugar otro plato"
 target_scene = "res://src/scenes/plate_process/plate_game/plate_game_main.tscn"
+discard_previous = true
+
+[node name="PlateSuccessPopup" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PopupOverlay"
+
+[node name="Center" type="CenterContainer" parent="PlateSuccessPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="PlateSuccessPopup/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_type_variation = &"PopupCard"
+
+[node name="VBox" type="VBoxContainer" parent="PlateSuccessPopup/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="PlateSuccessPopup/Center/Card/VBox"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+texture = ExtResource("tx_success")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LblTitle" type="Label" parent="PlateSuccessPopup/Center/Card/VBox"]
+layout_mode = 2
+theme_type_variation = &"PopupTitle"
+text = "¡Plato servido!"
+horizontal_alignment = 1
+
+[node name="LblMessage" type="Label" parent="PlateSuccessPopup/Center/Card/VBox"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"PopupText"
+text = "Tu plato saludable está listo. ¡Buen provecho!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="LblTotal" type="Label" parent="PlateSuccessPopup/Center/Card/VBox"]
+layout_mode = 2
+theme_type_variation = &"PopupText"
+theme_override_colors/font_color = Color(0.74, 0.5, 0.08, 1)
+theme_override_font_sizes/font_size = 26
+text = "0 puntos"
+horizontal_alignment = 1
+
+[node name="BtnContinue" parent="PlateSuccessPopup/Center/Card/VBox" instance=ExtResource("2_nav")]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Continuar"
+icon = ExtResource("ic_check")
+target_scene = "res://src/scenes/main/menu_panel.tscn"
 discard_previous = true
